@@ -1,7 +1,5 @@
 package iter
 
-import "fmt"
-
 type Iterable[T any] interface {
 	Next() *T
 	Find(pred func(T) bool) *T
@@ -45,7 +43,6 @@ func (iter *Iterator[T]) Find(pred func(T) bool) *T {
 		iter.idx++
 
 		if pred(next) {
-			fmt.Printf("pred: %v\n", pred(next))
 			return &next
 		}
 	}
