@@ -1,8 +1,6 @@
 package iter
 
-import (
-	"testing"
-)
+import "testing"
 
 func assertEq[T comparable](t *testing.T, a, b T) {
 	if a != b {
@@ -40,17 +38,11 @@ func TestRevNext(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		// iter := New(c.list)
-		// i := (&iter).Rev()
 		i := New(c.list).Rev()
 
 		idx := len(c.list) - 1
 		for have := i.Next(); have != nil; have = i.Next() {
 			assertEq(t, *have, c.list[idx])
-			// if *have != c.list[idx] {
-			// 	t.Errorf("Next \n\thave %v\n\twant %v", *have, c.list[idx])
-			// }
-
 			idx -= 1
 		}
 	}
