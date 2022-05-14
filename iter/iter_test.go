@@ -90,15 +90,15 @@ func TestFilter(t *testing.T) {
 
 func TestMap(t *testing.T) {
 	list := []int{1, 2, 3, 4}
-	want := []int{2,4,6,8}
-	fn := func(i int) int { return i * 2   }
+	want := []int{2, 4, 6, 8}
+	fn := func(i int) int { return i * 2 }
 
 	iter := New(list)
 	i := Map[int, int](iter, fn)
 
-  for have, idx := i.Next(), 0; have != nil; have, idx = i.Next(), idx+1 {
-    assertEq(t, *have, want[idx])
-  }
+	for have, idx := i.Next(), 0; have != nil; have, idx = i.Next(), idx+1 {
+		assertEq(t, *have, want[idx])
+	}
 }
 
 func TestReduce(t *testing.T) {
@@ -112,7 +112,7 @@ func TestReduce(t *testing.T) {
 
 	// Fold alias
 	iter = New(list)
-  have = Fold[int, int](iter, 0, sum)
+	have = Fold[int, int](iter, 0, sum)
 	assertEq(t, have, 10)
 	assertEq(t, iter.Next(), nil)
 }
@@ -131,4 +131,28 @@ func TestRevReduce(t *testing.T) {
 	have = Reduce[int, int](r, 0, sub)
 	assertEq(t, have, -10)
 	assertEq(t, r.Next(), nil)
+}
+
+func TestSkipWhile(t *testing.T) {
+	list := []int{-1, 2, 3, 4}
+	isNeg := func(a int) bool { return a < 0 }
+
+	iter := New(list)
+	i := SkipWhile[int](iter, isNeg)
+	assertEq(t, *i.Next(), 2)
+	assertEq(t, *i.Next(), 3)
+	assertEq(t, *i.Next(), 4)
+	assertEq(t, i.Next(), nil)
+}
+
+func TestSkipWhileFind(t *testing.T) {
+	list := []int{-4, -2, 1, 2}
+	isNeg := func(a int) bool { return a < 0 }
+	pred := func(i int) bool { return i%2 == 0 }
+
+	iter := New(list)
+	i := SkipWhile[int](iter, isNeg)
+
+	assertEq(t, *i.Find(pred), 2)
+	assertEq(t, i.Find(pred), nil)
 }
