@@ -175,6 +175,23 @@ func TestSkipWhileFind(t *testing.T) {
 	assertEq(t, i.Find(pred), nil)
 }
 
+func TestPartition(t *testing.T) {
+	list := []int{1, 2, 3, 4}
+	isEven := func(a int) bool { return a%2 == 0 }
+
+	iter := New(list)
+	a, b := Partition[int](iter, isEven)
+	wantA := []int{2, 4}
+	wantB := []int{1, 3}
+
+	for i, v := range a {
+		assertEq(t, v, wantA[i])
+	}
+	for i, v := range b {
+		assertEq(t, v, wantB[i])
+	}
+}
+
 func TestAdapterIsIterable(t *testing.T) {
 	list := []int{1, 2, 3, 4}
 	ident := func(i int) int { return i }

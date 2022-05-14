@@ -224,3 +224,22 @@ func (iter *SkipWhileT[T]) Find(pred func(T) bool) *T {
 
 	return nil
 }
+
+// Partition consumes an iterator, creating two slices from it.
+//
+// The first slice contains all of the elements for which the predicate returned
+// true, and the second slice contains all of the elements for which it returned
+// false.
+func Partition[T any](iter Iterable[T], pred func(T) bool) ([]T, []T) {
+	var a, b []T
+
+	for next := iter.Next(); next != nil; next = iter.Next() {
+		if pred(*next) {
+			a = append(a, *next)
+		} else {
+			b = append(b, *next)
+		}
+	}
+
+	return a, b
+}
