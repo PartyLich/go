@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# do you even fmt bro?
+# fail if gofmt has not been applied
+list=$(gofmt -s -l .)
+count="$(printf "%s" $list | wc -l)"
+
+if [ $count -gt 0 ]; then
+  echo Please apply gofmt before committing:
+  printf "%s\n" $list
+  exit 1
+fi
+
+# execute tests/lint/etc
+find . -name go.mod -execdir sh -c '
+  go test ./... &&
+  golangci-lint run' \;
