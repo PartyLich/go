@@ -124,6 +124,16 @@ func (m *Mapped[T, O]) Next() *O {
 	return &result
 }
 
+func (iter *Mapped[T, O]) Find(pred func(O) bool) *O {
+	for next := iter.Next(); next != nil; next = iter.Next() {
+		if pred(*next) {
+			return next
+		}
+	}
+
+	return nil
+}
+
 type Filtered[T any] struct {
 	iter Iterable[T]
 	pred func(T) bool
@@ -146,6 +156,16 @@ func (f *Filtered[T]) Next() *T {
 	}
 
 	return next
+}
+
+func (iter *Filtered[T]) Find(pred func(T) bool) *T {
+	for next := iter.Next(); next != nil; next = iter.Next() {
+		if pred(*next) {
+			return next
+		}
+	}
+
+	return nil
 }
 
 // Reduce repeatedly applies a reducing operation, reducing the iterator to a

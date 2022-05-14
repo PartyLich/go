@@ -88,6 +88,19 @@ func TestFilter(t *testing.T) {
 	assertEq(t, i.Next(), nil)
 }
 
+func TestFilterFind(t *testing.T) {
+	list := []int{-4, -2, 1, 2}
+	isNeg := func(a int) bool { return a < 0 }
+	pred := func(i int) bool { return i%2 == 0 }
+
+	iter := New(list)
+	i := Filter[int](iter, isNeg)
+
+	assertEq(t, *i.Find(pred), -4)
+	assertEq(t, *i.Find(pred), -2)
+	assertEq(t, i.Find(pred), nil)
+}
+
 func TestMap(t *testing.T) {
 	list := []int{1, 2, 3, 4}
 	want := []int{2, 4, 6, 8}
@@ -99,6 +112,19 @@ func TestMap(t *testing.T) {
 	for have, idx := i.Next(), 0; have != nil; have, idx = i.Next(), idx+1 {
 		assertEq(t, *have, want[idx])
 	}
+}
+
+func TestMapFind(t *testing.T) {
+	list := []int{1, 2, 3, 4}
+	pred := func(i int) bool { return i%2 == 0 }
+	fn := func(i int) int { return i + 1 }
+
+	iter := New(list)
+	i := Map[int, int](iter, fn)
+
+	assertEq(t, *i.Find(pred), 2)
+	assertEq(t, *i.Find(pred), 4)
+	assertEq(t, i.Find(pred), nil)
 }
 
 func TestReduce(t *testing.T) {
