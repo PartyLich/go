@@ -109,8 +109,8 @@ type Mapped[T any, O any] struct {
 }
 
 // Map returns an iterator that applies a function to every element.
-func Map[T any, O any](iter Iterable[T], fn func(T) O) Mapped[T, O] {
-	return Mapped[T, O]{iter, fn}
+func Map[T any, O any](iter Iterable[T], fn func(T) O) *Mapped[T, O] {
+	return &Mapped[T, O]{iter, fn}
 }
 
 func (m *Mapped[T, O]) Next() *O {
@@ -144,8 +144,8 @@ type Filtered[T any] struct {
 //
 // The returned iterator will yield only the elements for which the closure
 // returns true.
-func Filter[T any](iter Iterable[T], pred func(T) bool) Filtered[T] {
-	return Filtered[T]{iter, pred}
+func Filter[T any](iter Iterable[T], pred func(T) bool) *Filtered[T] {
+	return &Filtered[T]{iter, pred}
 }
 
 func (f *Filtered[T]) Next() *T {

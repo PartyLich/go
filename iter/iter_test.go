@@ -174,3 +174,16 @@ func TestSkipWhileFind(t *testing.T) {
 	assertEq(t, *i.Find(pred), 2)
 	assertEq(t, i.Find(pred), nil)
 }
+
+func TestAdapterIsIterable(t *testing.T) {
+	list := []int{1, 2, 3, 4}
+	ident := func(i int) int { return i }
+	all := func(i int) bool { return true }
+
+	var it Iterable[int]
+	it = New(list)
+	it = New(list).Rev()
+	it = Filter[int](New(list), all)
+	it = Map[int, int](New(list), ident)
+	_ = it
+}
