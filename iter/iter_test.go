@@ -8,6 +8,15 @@ func assertEq[T comparable](t *testing.T, a, b T) {
 	}
 }
 
+func assertPanic(t *testing.T, f func()) {
+	defer func() {
+		if recover() == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
+	f()
+}
+
 func TestNext(t *testing.T) {
 	cases := []struct {
 		list []int
@@ -226,5 +235,31 @@ func TestChain_Find(t *testing.T) {
 
 	assertEq(t, *i.Find(pred), 5)
 	assertEq(t, *i.Find(pred), 6)
+	assertEq(t, i.Find(pred), nil)
+}
+
+func TestStepBy(t *testing.T) {
+	list := []int{1, 2, 3, 4, 5, 6}
+
+	i := StepBy[int](New(list), 2)
+	want := []int{1, 3, 5}
+
+	for _, v := range want {
+		assertEq(t, v, *i.Next())
+	}
+	assertEq(t, i.Next(), nil)
+
+	// should panic on invalid step
+	assertPanic(t, func() { StepBy[int](New(list), 0) })
+	assertPanic(t, func() { StepBy[int](New(list), -1) })
+}
+
+func TestStepBy_Find(t *testing.T) {
+	list := []int{1, 2, 3, 4, 5, 6}
+	pred := func(i int) bool { return i == 2 || i == 5 }
+
+	i := StepBy[int](New(list), 2)
+
+	assertEq(t, *i.Find(pred), 5)
 	assertEq(t, i.Find(pred), nil)
 }
