@@ -13,5 +13,5 @@ fi
 
 # execute tests/lint/etc
 find . -name go.mod -execdir sh -c '
-  go test ./... &&
+  go test -cover ./... &&
   golangci-lint run' \;
