@@ -287,3 +287,10 @@ func TestTakeWhile_Find(t *testing.T) {
 	assertEq(t, *i.Find(pred), -2)
 	assertEq(t, i.Find(pred), nil)
 }
+
+func TestCount(t *testing.T) {
+	list := []int{1, 2, 3, 4, 5}
+	i := New(list)
+
+	assertEq(t, Count[int](i), 5)
+}

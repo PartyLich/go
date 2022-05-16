@@ -189,6 +189,18 @@ func Fold[T any, O any](iter Iterable[T], init O, fn func(O, T) O) O {
 	return Reduce(iter, init, fn)
 }
 
+// Count consumes the iterator, counting the number of iterations and returning
+// it.
+func Count[T any](iter Iterable[T]) int {
+	count := 0
+
+	for next := iter.Next(); next != nil; next = iter.Next() {
+		count += 1
+	}
+
+	return count
+}
+
 // SkipWhile iterable adapter
 type SkipWhileT[T any] struct {
 	iter Iterable[T]

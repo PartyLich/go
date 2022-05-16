@@ -157,3 +157,24 @@ func ExampleSkipWhile() {
 	// 4
 	// <nil>
 }
+
+func ExampleCount() {
+	i := iter.New([]int{1, 2, 3, 4, 5})
+
+	fmt.Println(iter.Count[int](i))
+
+	// Output:
+	// 5
+}
+
+func Example_filterCount() {
+	list := []int{1, 2, 3, 4}
+	i := iter.New(list)
+
+	f := iter.Filter[int](i, func(n int) bool { return n%2 == 0 })
+
+	fmt.Println(iter.Count[int](f))
+
+	// Output:
+	// 2
+}
