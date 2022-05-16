@@ -123,3 +123,20 @@ func ExampleChain() {
 	// 6
 	// <nil>
 }
+
+func ExampleTakeWhile() {
+	list := []int{-1, -2, 3, 4}
+	isNeg := func(a int) bool { return a < 0 }
+
+	iter := iter.TakeWhile[int](iter.New(list), isNeg)
+
+	for val := iter.Next(); val != nil; val = iter.Next() {
+		fmt.Println(*val)
+	}
+	fmt.Println(iter.Next())
+
+	// Output:
+	// -1
+	// -2
+	// <nil>
+}

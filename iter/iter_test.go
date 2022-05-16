@@ -263,3 +263,27 @@ func TestStepBy_Find(t *testing.T) {
 	assertEq(t, *i.Find(pred), 5)
 	assertEq(t, i.Find(pred), nil)
 }
+
+func TestTakeWhile(t *testing.T) {
+	list := []int{-1, -2, 3, 4}
+	isNeg := func(a int) bool { return a < 0 }
+
+	iter := New(list)
+	i := TakeWhile[int](iter, isNeg)
+	assertEq(t, *i.Next(), -1)
+	assertEq(t, *i.Next(), -2)
+	assertEq(t, i.Next(), nil)
+}
+
+func TestTakeWhile_Find(t *testing.T) {
+	list := []int{-4, -2, 1, 2, 4}
+	isNeg := func(a int) bool { return a < 0 }
+	pred := func(i int) bool { return i%2 == 0 }
+
+	iter := New(list)
+	i := TakeWhile[int](iter, isNeg)
+
+	assertEq(t, *i.Find(pred), -4)
+	assertEq(t, *i.Find(pred), -2)
+	assertEq(t, i.Find(pred), nil)
+}
