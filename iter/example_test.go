@@ -140,3 +140,20 @@ func ExampleTakeWhile() {
 	// -2
 	// <nil>
 }
+
+func ExampleSkipWhile() {
+	list := []int{-1, -2, 3, 4}
+	isNeg := func(a int) bool { return a < 0 }
+
+	iter := iter.SkipWhile[int](iter.New(list), isNeg)
+
+	for val := iter.Next(); val != nil; val = iter.Next() {
+		fmt.Println(*val)
+	}
+	fmt.Println(iter.Next())
+
+	// Output:
+	// 3
+	// 4
+	// <nil>
+}
