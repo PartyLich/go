@@ -99,3 +99,27 @@ func Example_compose() {
 	// 6
 	// 8
 }
+
+func ExampleChain() {
+	a1 := []int{1, 2, 3}
+	a2 := []int{4, 5, 6}
+
+	iter := iter.Chain[int](iter.New(a1), iter.New(a2))
+
+	fmt.Println(*iter.Next())
+	fmt.Println(*iter.Next())
+	fmt.Println(*iter.Next())
+	fmt.Println(*iter.Next())
+	fmt.Println(*iter.Next())
+	fmt.Println(*iter.Next())
+	fmt.Println(iter.Next())
+
+	// Output
+	// 1
+	// 2
+	// 3
+	// 4
+	// 5
+	// 6
+	// <nil>
+}

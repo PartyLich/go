@@ -204,3 +204,27 @@ func TestAdapterIsIterable(t *testing.T) {
 	it = Map[int, int](New(list), ident)
 	_ = it
 }
+
+func TestChain(t *testing.T) {
+	a1 := []int{1, 2, 3}
+	a2 := []int{4, 5, 6}
+
+	iter := Chain[int](New(a1), New(a2))
+	want := []int{1, 2, 3, 4, 5, 6}
+
+	for _, v := range want {
+		assertEq(t, v, *iter.Next())
+	}
+}
+
+func TestChain_Find(t *testing.T) {
+	a1 := []int{1, 2, 3}
+	a2 := []int{4, 5, 6}
+	pred := func(i int) bool { return i > 4 }
+
+	i := Chain[int](New(a1), New(a2))
+
+	assertEq(t, *i.Find(pred), 5)
+	assertEq(t, *i.Find(pred), 6)
+	assertEq(t, i.Find(pred), nil)
+}
