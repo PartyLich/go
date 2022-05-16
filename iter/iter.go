@@ -10,6 +10,7 @@ type Iterator[T any] struct {
 	slice []T
 }
 
+// New creates a new lazy iterator over the provided slice
 func New[T any](slice []T) *Iterator[T] {
 	return &Iterator[T]{0, slice}
 }
