@@ -114,7 +114,7 @@ func ExampleChain() {
 	fmt.Println(*iter.Next())
 	fmt.Println(iter.Next())
 
-	// Output
+	// Output:
 	// 1
 	// 2
 	// 3
