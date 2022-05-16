@@ -209,8 +209,8 @@ type SkipWhileT[T any] struct {
 }
 
 // SkipWhile creates an iterator that skips elements based on a predicate.
-func SkipWhile[T any](iter Iterable[T], pred func(T) bool) SkipWhileT[T] {
-	return SkipWhileT[T]{iter, false, pred}
+func SkipWhile[T any](iter Iterable[T], pred func(T) bool) *SkipWhileT[T] {
+	return &SkipWhileT[T]{iter, false, pred}
 }
 
 func (s *SkipWhileT[T]) Next() *T {

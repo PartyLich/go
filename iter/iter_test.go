@@ -211,6 +211,10 @@ func TestAdapterIsIterable(t *testing.T) {
 	it = New(list).Rev()
 	it = Filter[int](New(list), all)
 	it = Map[int, int](New(list), ident)
+	it = Chain[int](New(list), New(list))
+	it = StepBy[int](New(list), 2)
+	it = SkipWhile[int](New(list), all)
+	it = TakeWhile[int](New(list), all)
 	_ = it
 }
 
