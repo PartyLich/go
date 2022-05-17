@@ -106,3 +106,18 @@ func ExampleTaken_SkipWhile() {
 	// 2
 	// <nil>
 }
+
+func ExampleTaken_Skip() {
+	list := []int{-1, -2, -3, 4}
+
+	i := iter.New(list).Take(3).Skip(1)
+
+	fmt.Println(*i.Next())
+	fmt.Println(*i.Next())
+	fmt.Println(i.Next())
+
+	// Output:
+	// -2
+	// -3
+	// <nil>
+}

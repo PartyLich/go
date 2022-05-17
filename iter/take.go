@@ -58,3 +58,7 @@ func (iter *Taken[T]) Chain(b Iterable[T]) *Chained[T] {
 func (iter *Taken[T]) StepBy(step int) *Stepped[T] {
 	return StepBy[T](iter, step)
 }
+
+func (iter *Taken[T]) Skip(n int) *Skipped[T] {
+	return Skip[T](iter, n)
+}
