@@ -216,6 +216,7 @@ func TestAdapterIsIterable(t *testing.T) {
 	it = SkipWhile[int](New(list), all)
 	it = TakeWhile[int](New(list), all)
 	it = Skip[int](New(list), 2)
+	it = Take[int](New(list), 2)
 	_ = it
 }
 
@@ -321,5 +322,27 @@ func TestSkip_Find(t *testing.T) {
 
 	assertEq(t, *i.Find(pred), 2)
 	assertEq(t, *i.Find(pred), 4)
+	assertEq(t, i.Find(pred), nil)
+}
+
+func TestTake(t *testing.T) {
+	list := []int{-1, -2, 3, 4}
+
+	iter := New(list)
+	i := Take[int](iter, 2)
+	assertEq(t, *i.Next(), -1)
+	assertEq(t, *i.Next(), -2)
+	assertEq(t, i.Next(), nil)
+}
+
+func TestTake_Find(t *testing.T) {
+	list := []int{-4, -2, 1, 2, 4}
+	pred := func(i int) bool { return i%2 == 0 }
+
+	iter := New(list)
+	i := Take[int](iter, 3)
+
+	assertEq(t, *i.Find(pred), -4)
+	assertEq(t, *i.Find(pred), -2)
 	assertEq(t, i.Find(pred), nil)
 }
