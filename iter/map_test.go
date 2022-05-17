@@ -131,3 +131,19 @@ func ExampleMapped_TakeWhile() {
 	// -2
 	// <nil>
 }
+
+func ExampleMapped_Skip() {
+	list := []int{-1, 2, 3, 4}
+	ident := func(i int) int { return i }
+
+	i := iter.Map[int, int](iter.New(list), ident).Skip(2)
+
+	fmt.Println(*i.Next())
+	fmt.Println(*i.Next())
+	fmt.Println(i.Next())
+
+	// Output:
+	// 3
+	// 4
+	// <nil>
+}

@@ -121,3 +121,18 @@ func ExampleRevIterator_TakeWhile() {
 	// 3
 	// <nil>
 }
+
+func ExampleRevIterator_Skip() {
+	list := []int{-1, -2, -3, 4}
+
+	i := iter.New(list).Rev().Skip(1)
+
+	for val := i.Next(); val != nil; val = i.Next() {
+		fmt.Println(*val)
+	}
+
+	// Output:
+	// -3
+	// -2
+	// -1
+}

@@ -118,3 +118,18 @@ func ExampleIterator_TakeWhile() {
 	// -2
 	// <nil>
 }
+
+func ExampleIterator_Skip() {
+	list := []int{-1, -2, -3, 4}
+
+	i := iter.New(list).Skip(1)
+
+	for val := i.Next(); val != nil; val = i.Next() {
+		fmt.Println(*val)
+	}
+
+	// Output:
+	// -2
+	// -3
+	// 4
+}

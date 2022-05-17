@@ -27,3 +27,7 @@ func (iter *Mapped[T, O]) Chain(b Iterable[O]) *Chained[O] {
 func (iter *Mapped[T, O]) StepBy(step int) *Stepped[O] {
 	return StepBy[O](iter, step)
 }
+
+func (iter *Mapped[T, O]) Skip(n int) *Skipped[O] {
+	return Skip[O](iter, n)
+}
