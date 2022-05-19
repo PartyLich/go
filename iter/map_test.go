@@ -164,3 +164,18 @@ func ExampleMapped_Take() {
 	// -2
 	// <nil>
 }
+
+func ExampleMapped_ForEach() {
+	list := []int{1, 2, 3, 4}
+	ident := func(i int) int { return i }
+
+	i := iter.New(list)
+	iter.Map[int, int](i, ident).
+		ForEach(func(i int) { fmt.Println(i) })
+
+	// Output:
+	// 1
+	// 2
+	// 3
+	// 4
+}

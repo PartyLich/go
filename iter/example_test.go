@@ -127,6 +127,50 @@ func ExampleCollect_fluent() {
 	// [6 8]
 }
 
+func ExampleForEach() {
+	list := []int{1, 2, 3, 4}
+	fn := func(i int) {
+		fmt.Println(i)
+	}
+
+	i := iter.New(list)
+	iter.ForEach[int](i, fn)
+
+	// Output:
+	// 1
+	// 2
+	// 3
+	// 4
+}
+
+func ExampleForEach_inline() {
+	list := []int{1, 2, 3, 4}
+
+	i := iter.New(list)
+	iter.ForEach[int](i, func(i int) {
+		fmt.Println(i)
+	})
+
+	// Output:
+	// 1
+	// 2
+	// 3
+	// 4
+}
+
+func ExampleForEach_fluent() {
+	list := []int{1, 2, 3, 4}
+
+	iter.New(list).
+		ForEach(func(i int) { fmt.Println(i) })
+
+	// Output:
+	// 1
+	// 2
+	// 3
+	// 4
+}
+
 func ExampleChain() {
 	a1 := []int{1, 2, 3}
 	a2 := []int{4, 5, 6}

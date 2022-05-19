@@ -39,3 +39,7 @@ func (iter *Filtered[T]) Take(n int) *Taken[T] {
 func (iter *Filtered[T]) Collect() []T {
 	return Collect[T](iter)
 }
+
+func (iter *Filtered[T]) ForEach(fn func(T)) {
+	ForEach[T](iter, fn)
+}

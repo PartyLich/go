@@ -39,3 +39,7 @@ func (iter *Iterator[T]) Take(n int) *Taken[T] {
 func (iter *Iterator[T]) Collect() []T {
 	return Collect[T](iter)
 }
+
+func (iter *Iterator[T]) ForEach(fn func(T)) {
+	ForEach[T](iter, fn)
+}

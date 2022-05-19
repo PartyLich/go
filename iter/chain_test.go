@@ -162,3 +162,19 @@ func ExampleChained_Take() {
 	// 1
 	// 2
 }
+
+func ExampleChained_ForEach() {
+	a1 := []int{1, 2, 3}
+	a2 := []int{4, 5, 6}
+
+	iter.New(a1).Chain(iter.New(a2)).
+		ForEach(func(i int) { fmt.Println(i) })
+
+	// Output:
+	// 1
+	// 2
+	// 3
+	// 4
+	// 5
+	// 6
+}

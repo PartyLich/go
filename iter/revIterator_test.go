@@ -148,3 +148,16 @@ func ExampleRevIterator_Take() {
 	// Output:
 	// 4
 }
+
+func ExampleRevIterator_ForEach() {
+	list := []int{1, 2, 3, 4}
+
+	iter.New(list).Rev().
+		ForEach(func(i int) { fmt.Println(i) })
+
+	// Output:
+	// 4
+	// 3
+	// 2
+	// 1
+}

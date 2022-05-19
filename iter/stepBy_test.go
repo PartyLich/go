@@ -120,3 +120,14 @@ func ExampleStepped_Take() {
 	// -1
 	// <nil>
 }
+
+func ExampleStepped_ForEach() {
+	list := []int{1, 2, 3, 4}
+
+	iter.New(list).StepBy(2).
+		ForEach(func(i int) { fmt.Println(i) })
+
+	// Output:
+	// 1
+	// 3
+}

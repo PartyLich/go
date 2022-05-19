@@ -121,3 +121,15 @@ func ExampleTaken_Skip() {
 	// -3
 	// <nil>
 }
+
+func ExampleTaken_ForEach() {
+	list := []int{1, 2, 3, 4}
+
+	iter.New(list).Take(3).
+		ForEach(func(i int) { fmt.Println(i) })
+
+	// Output:
+	// 1
+	// 2
+	// 3
+}

@@ -178,6 +178,23 @@ func TestCollect(t *testing.T) {
 	assertEq(t, -4, have[0])
 }
 
+func TestForEach(t *testing.T) {
+	list := []int{1, 2, 3, 4}
+	have := make([]int, 0, len(list))
+	fn := func(i int) {
+		have = append(have, i)
+	}
+
+	iter := New(list)
+	ForEach[int](iter, fn)
+
+	for idx, want := range list {
+		assertEq(t, have[idx], want)
+	}
+	// iterator consumed
+	assertEq(t, iter.Next(), nil)
+}
+
 func TestSkipWhile(t *testing.T) {
 	list := []int{-1, 2, 3, 4}
 	isNeg := func(a int) bool { return a < 0 }

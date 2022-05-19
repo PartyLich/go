@@ -163,3 +163,16 @@ func ExampleIterator_Collect() {
 	// [1 2 3 4]
 	// [42 2 3 4]
 }
+
+func ExampleIterator_ForEach() {
+	list := []int{1, 2, 3, 4}
+
+	iter.New(list).
+		ForEach(func(i int) { fmt.Println(i) })
+
+	// Output:
+	// 1
+	// 2
+	// 3
+	// 4
+}

@@ -212,6 +212,16 @@ func Count[T any](iter Iterable[T]) int {
 	return count
 }
 
+// Calls a function on each element of an iterator.
+//
+// This is equivalent to using a for loop on the iterator, although break and
+// continue are not possible.
+func ForEach[T any](iter Iterable[T], fn func(T)) {
+	for val := iter.Next(); val != nil; val = iter.Next() {
+		fn(*val)
+	}
+}
+
 // SkipWhile iterable adapter
 type SkipWhileT[T any] struct {
 	iter Iterable[T]

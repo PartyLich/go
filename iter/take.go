@@ -66,3 +66,7 @@ func (iter *Taken[T]) Skip(n int) *Skipped[T] {
 func (iter *Taken[T]) Collect() []T {
 	return Collect[T](iter)
 }
+
+func (iter *Taken[T]) ForEach(fn func(T)) {
+	ForEach[T](iter, fn)
+}
