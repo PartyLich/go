@@ -31,3 +31,7 @@ func (iter *Mapped[T, O]) StepBy(step int) *Stepped[O] {
 func (iter *Mapped[T, O]) Skip(n int) *Skipped[O] {
 	return Skip[O](iter, n)
 }
+
+func (iter *Mapped[T, O]) Take(n int) *Taken[O] {
+	return Take[O](iter, n)
+}

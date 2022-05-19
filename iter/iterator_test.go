@@ -133,3 +133,15 @@ func ExampleIterator_Skip() {
 	// -3
 	// 4
 }
+
+func ExampleIterator_Take() {
+	list := []int{-1, -2, -3, 4}
+	i := iter.New(list).Take(1)
+
+	for val := i.Next(); val != nil; val = i.Next() {
+		fmt.Println(*val)
+	}
+
+	// Output:
+	// -1
+}

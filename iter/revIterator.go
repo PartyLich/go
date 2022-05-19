@@ -31,3 +31,7 @@ func (iter *RevIterator[T]) StepBy(step int) *Stepped[T] {
 func (iter *RevIterator[T]) Skip(n int) *Skipped[T] {
 	return Skip[T](iter, n)
 }
+
+func (iter *RevIterator[T]) Take(n int) *Taken[T] {
+	return Take[T](iter, n)
+}
