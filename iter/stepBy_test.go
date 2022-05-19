@@ -12,7 +12,7 @@ func ExampleStepped_Count() {
 	fmt.Println(i.Count())
 
 	// Output:
-	// 2
+	// 3
 }
 
 func ExampleStepped_Filter() {
@@ -31,30 +31,24 @@ func ExampleStepped_Filter() {
 	// Output:
 	// 2
 	// 4
+	// 6
 }
 
 func ExampleStepped_Partition() {
 	list := []int{1, 2, 3, 4, 5, 6}
-	isEven := func(a int) bool { return a%2 == 0 }
-	gt5 := func(a int) bool { return a > 5 }
+	gte5 := func(a int) bool { return a >= 5 }
 
-	a, b := iter.New(list).StepBy(2).Partition(gt5)
+	a, b := iter.New(list).StepBy(2).Partition(gte5)
 
-	for _, v := range a {
-		fmt.Println(v)
-	}
-	for _, v := range b {
-		fmt.Println(v)
-	}
+	fmt.Println(a)
+	fmt.Println(b)
 
 	// Output:
-	// 6
-	// 2
-	// 4
+	// [5]
+	// [1 3]
 }
 
 func ExampleStepped_Chain() {
-	isEven := func(a int) bool { return a%2 == 0 }
 	a1 := []int{1, 2, 3}
 	a2 := []int{4, 5, 6}
 
@@ -65,14 +59,14 @@ func ExampleStepped_Chain() {
 	}
 
 	// Output:
-	// 2
+	// 1
+	// 3
 	// 4
 	// 5
 	// 6
 }
 
 func ExampleStepped_TakeWhile() {
-	isEven := func(a int) bool { return a%2 == 0 }
 	list := []int{1, 2, 6, -7, -3, -4}
 	isPos := func(a int) bool { return a > 0 }
 
@@ -82,14 +76,13 @@ func ExampleStepped_TakeWhile() {
 	fmt.Println(i.Next())
 
 	// Output:
-	// 2
+	// 1
 	// 6
 	// <nil>
 }
 
 func ExampleStepped_SkipWhile() {
-	isEven := func(a int) bool { return a%2 == 0 }
-	list := []int{-1, -2, -3, 4}
+	list := []int{-1, -2, -3, 4, 5}
 	isNeg := func(a int) bool { return a < 0 }
 
 	i := iter.New(list).StepBy(2).SkipWhile(isNeg)
@@ -98,12 +91,11 @@ func ExampleStepped_SkipWhile() {
 	fmt.Println(i.Next())
 
 	// Output:
-	// 4
+	// 5
 	// <nil>
 }
 
 func ExampleStepped_Skip() {
-	isEven := func(a int) bool { return a%2 == 0 }
 	list := []int{-1, -2, -3, 4}
 
 	i := iter.New(list).StepBy(2).Skip(1)
@@ -112,12 +104,11 @@ func ExampleStepped_Skip() {
 	fmt.Println(i.Next())
 
 	// Output:
-	// 4
+	// -3
 	// <nil>
 }
 
 func ExampleStepped_Take() {
-	isEven := func(a int) bool { return a%2 == 0 }
 	list := []int{-1, -2, -3, 4}
 
 	i := iter.New(list).StepBy(2).Take(1)
@@ -126,6 +117,6 @@ func ExampleStepped_Take() {
 	fmt.Println(i.Next())
 
 	// Output:
-	// -2
+	// -1
 	// <nil>
 }
