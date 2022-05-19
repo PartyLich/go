@@ -43,3 +43,7 @@ func (iter *Mapped[T, O]) Collect() []O {
 func (iter *Mapped[T, O]) ForEach(fn func(O)) {
 	ForEach[O](iter, fn)
 }
+
+func (iter *Mapped[T, O]) Nth(n int) *O {
+	return Nth[O](iter, n)
+}

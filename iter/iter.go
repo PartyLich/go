@@ -222,6 +222,35 @@ func ForEach[T any](iter Iterable[T], fn func(T)) {
 	}
 }
 
+// Nth returns the `n`th element of the iterator.
+//
+// Like most indexing operations, the count starts from zero, so `Nth(0)`
+// returns the first value, `nth(1)` the second, and so on.
+//
+// Note that all preceding elements, as well as the returned element, will be
+// consumed from the iterator. That means that the preceding elements will be
+// discarded, and also that calling `Nth(0)` multiple times on the same iterator
+// will return different elements.
+//
+// Nth will return `nil` if `n` is greater than or equal to the length of the
+// iterator.
+func Nth[T any](iter Iterable[T], n int) *T {
+	if n < 0 {
+		panic("Nth expected n to be >= 0")
+	}
+
+	var next *T
+
+	for ; n >= 0; n-- {
+		next = iter.Next()
+		if next == nil {
+			break
+		}
+	}
+
+	return next
+}
+
 // SkipWhile iterable adapter
 type SkipWhileT[T any] struct {
 	iter Iterable[T]

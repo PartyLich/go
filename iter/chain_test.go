@@ -178,3 +178,15 @@ func ExampleChained_ForEach() {
 	// 5
 	// 6
 }
+
+func ExampleChained_Nth() {
+	a1 := []int{1, 2, 3}
+	a2 := []int{4, 5, 6}
+
+	i := iter.New(a1).Chain(iter.New(a2)).Nth(3)
+
+	fmt.Println(*i)
+
+	// Output:
+	// 4
+}

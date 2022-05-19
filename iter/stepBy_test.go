@@ -131,3 +131,14 @@ func ExampleStepped_ForEach() {
 	// 1
 	// 3
 }
+
+func ExampleStepped_Nth() {
+	list := []int{-1, -2, -3, 4}
+
+	i := iter.New(list).StepBy(2).Nth(1)
+
+	fmt.Println(*i)
+
+	// Output:
+	// -3
+}

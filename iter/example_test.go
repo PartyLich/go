@@ -171,6 +171,31 @@ func ExampleForEach_fluent() {
 	// 4
 }
 
+func ExampleNth() {
+	list := []int{1, 2, 3, 4}
+	i := iter.New(list)
+
+	fmt.Println(*iter.Nth[int](i, 0))
+	fmt.Println(*iter.Nth[int](i, 0))
+	// i only has 2 elements left, so n = 2 is out of range
+	fmt.Println(iter.Nth[int](i, 2))
+
+	// Output:
+	// 1
+	// 2
+	// <nil>
+}
+
+func ExampleNth_fluent() {
+	list := []int{1, 2, 3, 4}
+	n := iter.New(list).Nth(2)
+
+	fmt.Println(*n)
+
+	// Output:
+	// 3
+}
+
 func ExampleChain() {
 	a1 := []int{1, 2, 3}
 	a2 := []int{4, 5, 6}

@@ -73,3 +73,7 @@ func (iter *Skipped[T]) Collect() []T {
 func (iter *Skipped[T]) ForEach(fn func(T)) {
 	ForEach[T](iter, fn)
 }
+
+func (iter *Skipped[T]) Nth(n int) *T {
+	return Nth[T](iter, n)
+}

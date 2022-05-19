@@ -161,3 +161,13 @@ func ExampleRevIterator_ForEach() {
 	// 2
 	// 1
 }
+
+func ExampleRevIterator_Nth() {
+	list := []int{-1, -2, -3, 4}
+	i := iter.New(list).Rev().Nth(1)
+
+	fmt.Println(*i)
+
+	// Output:
+	// -3
+}

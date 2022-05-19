@@ -43,3 +43,7 @@ func (iter *Chained[T]) Collect() []T {
 func (iter *Chained[T]) ForEach(fn func(T)) {
 	ForEach[T](iter, fn)
 }
+
+func (iter *Chained[T]) Nth(n int) *T {
+	return Nth[T](iter, n)
+}

@@ -70,3 +70,7 @@ func (iter *Taken[T]) Collect() []T {
 func (iter *Taken[T]) ForEach(fn func(T)) {
 	ForEach[T](iter, fn)
 }
+
+func (iter *Taken[T]) Nth(n int) *T {
+	return Nth[T](iter, n)
+}

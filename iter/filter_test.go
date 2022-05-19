@@ -155,3 +155,15 @@ func ExampleFiltered_ForEach() {
 	// 2
 	// 4
 }
+
+func ExampleFiltered_Nth() {
+	isEven := func(a int) bool { return a%2 == 0 }
+	list := []int{-1, -2, -3, 4}
+
+	i := iter.New(list).Filter(isEven).Nth(1)
+
+	fmt.Println(*i)
+
+	// Output:
+	// 4
+}

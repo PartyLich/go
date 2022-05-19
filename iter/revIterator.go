@@ -43,3 +43,7 @@ func (iter *RevIterator[T]) Collect() []T {
 func (iter *RevIterator[T]) ForEach(fn func(T)) {
 	ForEach[T](iter, fn)
 }
+
+func (iter *RevIterator[T]) Nth(n int) *T {
+	return Nth[T](iter, n)
+}

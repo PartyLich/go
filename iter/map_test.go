@@ -179,3 +179,16 @@ func ExampleMapped_ForEach() {
 	// 3
 	// 4
 }
+
+func ExampleMapped_Nth() {
+	list := []int{-1, -2, 3, 4}
+	ident := func(i int) int { return i }
+
+	i := iter.New(list)
+	m := iter.Map[int, int](i, ident).Nth(2)
+
+	fmt.Println(*m)
+
+	// Output:
+	// 3
+}

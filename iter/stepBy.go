@@ -39,3 +39,7 @@ func (iter *Stepped[T]) Collect() []T {
 func (iter *Stepped[T]) ForEach(fn func(T)) {
 	ForEach[T](iter, fn)
 }
+
+func (iter *Stepped[T]) Nth(n int) *T {
+	return Nth[T](iter, n)
+}

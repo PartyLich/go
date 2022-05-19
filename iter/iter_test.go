@@ -195,6 +195,13 @@ func TestForEach(t *testing.T) {
 	assertEq(t, iter.Next(), nil)
 }
 
+func TestNth(t *testing.T) {
+	list := []int{1, 2, 3, 4}
+	have := *Nth[int](New(list), 1)
+
+	assertEq(t, have, 2)
+}
+
 func TestSkipWhile(t *testing.T) {
 	list := []int{-1, 2, 3, 4}
 	isNeg := func(a int) bool { return a < 0 }

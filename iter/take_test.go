@@ -133,3 +133,14 @@ func ExampleTaken_ForEach() {
 	// 2
 	// 3
 }
+
+func ExampleTaken_Nth() {
+	list := []int{-1, -2, -3, 4}
+
+	i := iter.New(list).Take(3).Nth(1)
+
+	fmt.Println(*i)
+
+	// Output:
+	// -2
+}

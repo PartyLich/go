@@ -134,3 +134,14 @@ func ExampleSkipped_ForEach() {
 	// 3
 	// 4
 }
+
+func ExampleSkipped_Nth() {
+	list := []int{-1, -2, -3, 4}
+
+	i := iter.New(list).Skip(2).Nth(1)
+
+	fmt.Println(*i)
+
+	// Output:
+	// 4
+}

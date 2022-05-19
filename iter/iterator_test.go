@@ -176,3 +176,13 @@ func ExampleIterator_ForEach() {
 	// 3
 	// 4
 }
+
+func ExampleIterator_Nth() {
+	list := []int{-1, -2, -3, 4}
+	i := iter.New(list).Nth(1)
+
+	fmt.Println(*i)
+
+	// Output:
+	// -2
+}
