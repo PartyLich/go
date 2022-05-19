@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# exit on user signal, allowing subshells to exit the script
+trap 'exit 1' SIGUSR1
+process_id=$$
+
 # do you even fmt bro?
 # fail if gofmt has not been applied
 list=$(gofmt -s -l .)
@@ -12,5 +16,12 @@ fi
 
 # execute tests/lint/etc
 find . -name go.mod -execdir sh -c '
-  go test -cover ./... &&
-  golangci-lint run' \;
+  go test -cover ./...
+  err_code=$?
+  if [ $err_code -ne 0 ]; then
+    # send SIGUSR1 to the parent process
+    kill -s USR1 $0
+  fi
+
+  golangci-lint run
+'  $process_id \;
