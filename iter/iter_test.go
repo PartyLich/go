@@ -8,6 +8,15 @@ func assertEq[T comparable](t *testing.T, a, b T) {
 	}
 }
 
+func assertPanic(t *testing.T, f func()) {
+	defer func() {
+		if recover() == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
+	f()
+}
+
 func TestNext(t *testing.T) {
 	cases := []struct {
 		list []int
@@ -151,6 +160,48 @@ func TestRevReduce(t *testing.T) {
 	assertEq(t, r.Next(), nil)
 }
 
+func TestCollect(t *testing.T) {
+	list := []int{1, 2, 3, 4}
+
+	iter := New(list)
+	have := Collect[int](iter)
+
+	for idx, want := range list {
+		assertEq(t, have[idx], want)
+	}
+	// iterator consumed
+	assertEq(t, iter.Next(), nil)
+
+	// original list unchanged
+	have[0] = -4
+	assertEq(t, 1, list[0])
+	assertEq(t, -4, have[0])
+}
+
+func TestForEach(t *testing.T) {
+	list := []int{1, 2, 3, 4}
+	have := make([]int, 0, len(list))
+	fn := func(i int) {
+		have = append(have, i)
+	}
+
+	iter := New(list)
+	ForEach[int](iter, fn)
+
+	for idx, want := range list {
+		assertEq(t, have[idx], want)
+	}
+	// iterator consumed
+	assertEq(t, iter.Next(), nil)
+}
+
+func TestNth(t *testing.T) {
+	list := []int{1, 2, 3, 4}
+	have := *Nth[int](New(list), 1)
+
+	assertEq(t, have, 2)
+}
+
 func TestSkipWhile(t *testing.T) {
 	list := []int{-1, 2, 3, 4}
 	isNeg := func(a int) bool { return a < 0 }
@@ -175,6 +226,23 @@ func TestSkipWhileFind(t *testing.T) {
 	assertEq(t, i.Find(pred), nil)
 }
 
+func TestPartition(t *testing.T) {
+	list := []int{1, 2, 3, 4}
+	isEven := func(a int) bool { return a%2 == 0 }
+
+	iter := New(list)
+	a, b := Partition[int](iter, isEven)
+	wantA := []int{2, 4}
+	wantB := []int{1, 3}
+
+	for i, v := range a {
+		assertEq(t, v, wantA[i])
+	}
+	for i, v := range b {
+		assertEq(t, v, wantB[i])
+	}
+}
+
 func TestAdapterIsIterable(t *testing.T) {
 	list := []int{1, 2, 3, 4}
 	ident := func(i int) int { return i }
@@ -185,5 +253,138 @@ func TestAdapterIsIterable(t *testing.T) {
 	it = New(list).Rev()
 	it = Filter[int](New(list), all)
 	it = Map[int, int](New(list), ident)
+	it = Chain[int](New(list), New(list))
+	it = StepBy[int](New(list), 2)
+	it = SkipWhile[int](New(list), all)
+	it = TakeWhile[int](New(list), all)
+	it = Skip[int](New(list), 2)
+	it = Take[int](New(list), 2)
 	_ = it
+}
+
+func TestChain(t *testing.T) {
+	a1 := []int{1, 2, 3}
+	a2 := []int{4, 5, 6}
+
+	iter := Chain[int](New(a1), New(a2))
+	want := []int{1, 2, 3, 4, 5, 6}
+
+	for _, v := range want {
+		assertEq(t, v, *iter.Next())
+	}
+}
+
+func TestChain_Find(t *testing.T) {
+	a1 := []int{1, 2, 3}
+	a2 := []int{4, 5, 6}
+	pred := func(i int) bool { return i > 4 }
+
+	i := Chain[int](New(a1), New(a2))
+
+	assertEq(t, *i.Find(pred), 5)
+	assertEq(t, *i.Find(pred), 6)
+	assertEq(t, i.Find(pred), nil)
+}
+
+func TestStepBy(t *testing.T) {
+	list := []int{1, 2, 3, 4, 5, 6}
+
+	i := StepBy[int](New(list), 2)
+	want := []int{1, 3, 5}
+
+	for _, v := range want {
+		assertEq(t, v, *i.Next())
+	}
+	assertEq(t, i.Next(), nil)
+
+	// should panic on invalid step
+	assertPanic(t, func() { StepBy[int](New(list), 0) })
+	assertPanic(t, func() { StepBy[int](New(list), -1) })
+}
+
+func TestStepBy_Find(t *testing.T) {
+	list := []int{1, 2, 3, 4, 5, 6}
+	pred := func(i int) bool { return i == 2 || i == 5 }
+
+	i := StepBy[int](New(list), 2)
+
+	assertEq(t, *i.Find(pred), 5)
+	assertEq(t, i.Find(pred), nil)
+}
+
+func TestTakeWhile(t *testing.T) {
+	list := []int{-1, -2, 3, 4}
+	isNeg := func(a int) bool { return a < 0 }
+
+	iter := New(list)
+	i := TakeWhile[int](iter, isNeg)
+	assertEq(t, *i.Next(), -1)
+	assertEq(t, *i.Next(), -2)
+	assertEq(t, i.Next(), nil)
+}
+
+func TestTakeWhile_Find(t *testing.T) {
+	list := []int{-4, -2, 1, 2, 4}
+	isNeg := func(a int) bool { return a < 0 }
+	pred := func(i int) bool { return i%2 == 0 }
+
+	iter := New(list)
+	i := TakeWhile[int](iter, isNeg)
+
+	assertEq(t, *i.Find(pred), -4)
+	assertEq(t, *i.Find(pred), -2)
+	assertEq(t, i.Find(pred), nil)
+}
+
+func TestCount(t *testing.T) {
+	list := []int{1, 2, 3, 4, 5}
+	i := New(list)
+
+	assertEq(t, Count[int](i), 5)
+}
+
+func TestSkip(t *testing.T) {
+	list := []int{-1, -2, 3, 4}
+
+	iter := New(list)
+	i := Skip[int](iter, 2)
+	assertEq(t, *i.Next(), 3)
+	assertEq(t, *i.Next(), 4)
+	assertEq(t, i.Next(), nil)
+
+	assertPanic(t, func() { Skip[int](iter, -1) })
+}
+
+func TestSkip_Find(t *testing.T) {
+	list := []int{-4, -2, 1, 2, 4}
+	pred := func(i int) bool { return i%2 == 0 }
+
+	iter := New(list)
+	i := Skip[int](iter, 3)
+
+	assertEq(t, *i.Find(pred), 2)
+	assertEq(t, *i.Find(pred), 4)
+	assertEq(t, i.Find(pred), nil)
+}
+
+func TestTake(t *testing.T) {
+	list := []int{-1, -2, 3, 4}
+
+	iter := New(list)
+	i := Take[int](iter, 2)
+	assertEq(t, *i.Next(), -1)
+	assertEq(t, *i.Next(), -2)
+	assertEq(t, i.Next(), nil)
+}
+
+func TestTake_Find(t *testing.T) {
+	list := []int{-4, -2, 1, 2, 4}
+	pred := func(i int) bool { return i%2 == 0 }
+
+	iter := New(list)
+	i := Take[int](iter, 3)
+
+	assertEq(t, *i.Find(pred), -4)
+	assertEq(t, *i.Find(pred), -2)
+	assertEq(t, i.Find(pred), nil)
 }

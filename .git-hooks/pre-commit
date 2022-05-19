@@ -1,14 +1,27 @@
 #!/bin/sh
 
+# exit on user signal, allowing subshells to exit the script
+trap 'exit 1' SIGUSR1
+process_id=$$
+
 # execute tests/lint/etc
-find . -name go.mod -execdir go vet ./... \;
+find . -name go.mod -execdir sh -c '
+# go vet outputs to stderr, so redirect
+vetted=$(go vet ./... 2>&1)
+
+if [ -n "$vetted" ];  then
+  echo go vet errors:
+  echo $vetted
+  # send SIGUSR1 to the pre-commit process
+  kill -s USR1 $0
+fi
+' $process_id \;
 
 # do you even fmt bro?
 # fail if gofmt has not been applied
 list=$(gofmt -s -l .)
-count="$(printf "%s" $list | wc -l)"
 
-if [ $count -gt 0 ]; then
+if [ -n "$list" ]; then
   echo Please apply gofmt before committing:
   printf "%s\n" $list
   exit 1

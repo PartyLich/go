@@ -10,6 +10,7 @@ type Iterator[T any] struct {
 	slice []T
 }
 
+// New creates a new lazy iterator over the provided slice
 func New[T any](slice []T) *Iterator[T] {
 	return &Iterator[T]{0, slice}
 }
@@ -188,6 +189,68 @@ func Fold[T any, O any](iter Iterable[T], init O, fn func(O, T) O) O {
 	return Reduce(iter, init, fn)
 }
 
+// Collect transforms an iterator into a slice.
+func Collect[T any](iter Iterable[T]) []T {
+	var out []T
+
+	for next := iter.Next(); next != nil; next = iter.Next() {
+		out = append(out, *next)
+	}
+
+	return out
+}
+
+// Count consumes the iterator, counting the number of iterations and returning
+// it.
+func Count[T any](iter Iterable[T]) int {
+	count := 0
+
+	for next := iter.Next(); next != nil; next = iter.Next() {
+		count += 1
+	}
+
+	return count
+}
+
+// Calls a function on each element of an iterator.
+//
+// This is equivalent to using a for loop on the iterator, although break and
+// continue are not possible.
+func ForEach[T any](iter Iterable[T], fn func(T)) {
+	for val := iter.Next(); val != nil; val = iter.Next() {
+		fn(*val)
+	}
+}
+
+// Nth returns the `n`th element of the iterator.
+//
+// Like most indexing operations, the count starts from zero, so `Nth(0)`
+// returns the first value, `nth(1)` the second, and so on.
+//
+// Note that all preceding elements, as well as the returned element, will be
+// consumed from the iterator. That means that the preceding elements will be
+// discarded, and also that calling `Nth(0)` multiple times on the same iterator
+// will return different elements.
+//
+// Nth will return `nil` if `n` is greater than or equal to the length of the
+// iterator.
+func Nth[T any](iter Iterable[T], n int) *T {
+	if n < 0 {
+		panic("Nth expected n to be >= 0")
+	}
+
+	var next *T
+
+	for ; n >= 0; n-- {
+		next = iter.Next()
+		if next == nil {
+			break
+		}
+	}
+
+	return next
+}
+
 // SkipWhile iterable adapter
 type SkipWhileT[T any] struct {
 	iter Iterable[T]
@@ -196,8 +259,8 @@ type SkipWhileT[T any] struct {
 }
 
 // SkipWhile creates an iterator that skips elements based on a predicate.
-func SkipWhile[T any](iter Iterable[T], pred func(T) bool) SkipWhileT[T] {
-	return SkipWhileT[T]{iter, false, pred}
+func SkipWhile[T any](iter Iterable[T], pred func(T) bool) *SkipWhileT[T] {
+	return &SkipWhileT[T]{iter, false, pred}
 }
 
 func (s *SkipWhileT[T]) Next() *T {
@@ -216,6 +279,154 @@ func (s *SkipWhileT[T]) Next() *T {
 }
 
 func (iter *SkipWhileT[T]) Find(pred func(T) bool) *T {
+	for next := iter.Next(); next != nil; next = iter.Next() {
+		if pred(*next) {
+			return next
+		}
+	}
+
+	return nil
+}
+
+// Partition consumes an iterator, creating two slices from it.
+//
+// The first slice contains all of the elements for which the predicate returned
+// true, and the second slice contains all of the elements for which it returned
+// false.
+func Partition[T any](iter Iterable[T], pred func(T) bool) ([]T, []T) {
+	var a, b []T
+
+	for next := iter.Next(); next != nil; next = iter.Next() {
+		if pred(*next) {
+			a = append(a, *next)
+		} else {
+			b = append(b, *next)
+		}
+	}
+
+	return a, b
+}
+
+type Chainer[T any] interface {
+	Chain(Iterable[T]) Iterable[T]
+}
+
+type Chained[T any] struct {
+	a, b Iterable[T]
+}
+
+// Chain takes two iterators and creates a new iterator over both in sequence.
+//
+// Chain will return a new iterator which will first iterate over values from
+// the first iterator and then over values from the second iterator.
+func Chain[T any](a, b Iterable[T]) *Chained[T] {
+	return &Chained[T]{a, b}
+}
+
+func (c *Chained[T]) Next() *T {
+	next := c.a.Next()
+
+	if next == nil {
+		return c.b.Next()
+	}
+
+	return next
+}
+
+func (c *Chained[T]) Find(pred func(T) bool) *T {
+	for next := c.a.Next(); next != nil; next = c.a.Next() {
+		if pred(*next) {
+			return next
+		}
+	}
+	for next := c.b.Next(); next != nil; next = c.b.Next() {
+		if pred(*next) {
+			return next
+		}
+	}
+
+	return nil
+}
+
+type Stepped[T any] struct {
+	iter  Iterable[T]
+	step  int
+	first bool
+}
+
+// StepBy creates an iterator starting at the same point, but stepping by the
+// given amount at each iteration.
+//
+// The method will panic if the given step is <= 0.
+//
+// Note 1: The first element of the iterator will always be returned, regardless
+// of the step given.
+func StepBy[T any](a Iterable[T], step int) *Stepped[T] {
+	if step <= 0 {
+		panic("StepBy requires a step value > 0")
+	}
+
+	return &Stepped[T]{a, step, true}
+}
+
+func (s *Stepped[T]) Next() *T {
+	if s.first {
+		s.first = false
+		return s.iter.Next()
+	}
+
+	next := s.iter.Next()
+	for i := 1; i < s.step; i++ {
+		next = s.iter.Next()
+	}
+
+	return next
+}
+
+func (s *Stepped[T]) Find(pred func(T) bool) *T {
+	var next *T
+
+	for next = s.Next(); next != nil; next = s.Next() {
+		if pred(*next) {
+			break
+		}
+	}
+
+	return next
+}
+
+// TakeWhile iterable adapter
+type TakeWhileT[T any] struct {
+	iter Iterable[T]
+	flag bool
+	pred func(T) bool
+}
+
+// TakeWhile Creates an iterator that yields elements based on a predicate.
+//
+// TakeWhile takes a predicate function as an argument. It will call this
+// function on each element of the iterator, and yield elements while it returns
+// true.
+func TakeWhile[T any](iter Iterable[T], pred func(T) bool) *TakeWhileT[T] {
+	return &TakeWhileT[T]{iter, true, pred}
+}
+
+func (s *TakeWhileT[T]) Next() *T {
+	check := func(flag *bool, pred func(T) bool) func(T) bool {
+		return func(t T) bool {
+			if *flag && pred(t) {
+				return true
+			} else {
+				*flag = false
+				return false
+			}
+		}
+	}
+
+	return s.iter.Find(check(&s.flag, s.pred))
+}
+
+func (iter *TakeWhileT[T]) Find(pred func(T) bool) *T {
 	for next := iter.Next(); next != nil; next = iter.Next() {
 		if pred(*next) {
 			return next
