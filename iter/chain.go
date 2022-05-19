@@ -35,3 +35,7 @@ func (iter *Chained[T]) Skip(n int) *Skipped[T] {
 func (iter *Chained[T]) Take(n int) *Taken[T] {
 	return Take[T](iter, n)
 }
+
+func (iter *Chained[T]) Collect() []T {
+	return Collect[T](iter)
+}

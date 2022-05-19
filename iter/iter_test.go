@@ -160,6 +160,24 @@ func TestRevReduce(t *testing.T) {
 	assertEq(t, r.Next(), nil)
 }
 
+func TestCollect(t *testing.T) {
+	list := []int{1, 2, 3, 4}
+
+	iter := New(list)
+	have := Collect[int](iter)
+
+	for idx, want := range list {
+		assertEq(t, have[idx], want)
+	}
+	// iterator consumed
+	assertEq(t, iter.Next(), nil)
+
+	// original list unchanged
+	have[0] = -4
+	assertEq(t, 1, list[0])
+	assertEq(t, -4, have[0])
+}
+
 func TestSkipWhile(t *testing.T) {
 	list := []int{-1, 2, 3, 4}
 	isNeg := func(a int) bool { return a < 0 }

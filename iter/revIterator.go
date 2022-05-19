@@ -35,3 +35,7 @@ func (iter *RevIterator[T]) Skip(n int) *Skipped[T] {
 func (iter *RevIterator[T]) Take(n int) *Taken[T] {
 	return Take[T](iter, n)
 }
+
+func (iter *RevIterator[T]) Collect() []T {
+	return Collect[T](iter)
+}

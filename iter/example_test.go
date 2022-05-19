@@ -100,6 +100,33 @@ func Example_compose() {
 	// 8
 }
 
+func ExampleCollect() {
+	list := []int{1, 2, 3, 4}
+	i := iter.New(list)
+
+	doubled := iter.Map[int, int](i, func(n int) int { return n * 2 }).
+		Filter(func(n int) bool { return n > 5 })
+
+	fmt.Println(iter.Collect[int](doubled))
+
+	// Output:
+	// [6 8]
+}
+
+func ExampleCollect_fluent() {
+	list := []int{1, 2, 3, 4}
+	i := iter.New(list)
+
+	doubled := iter.Map[int, int](i, func(n int) int { return n * 2 }).
+		Filter(func(n int) bool { return n > 5 }).
+		Collect()
+
+	fmt.Println(doubled)
+
+	// Output:
+	// [6 8]
+}
+
 func ExampleChain() {
 	a1 := []int{1, 2, 3}
 	a2 := []int{4, 5, 6}

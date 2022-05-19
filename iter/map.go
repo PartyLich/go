@@ -35,3 +35,7 @@ func (iter *Mapped[T, O]) Skip(n int) *Skipped[O] {
 func (iter *Mapped[T, O]) Take(n int) *Taken[O] {
 	return Take[O](iter, n)
 }
+
+func (iter *Mapped[T, O]) Collect() []O {
+	return Collect[O](iter)
+}

@@ -35,3 +35,7 @@ func (iter *Filtered[T]) Skip(n int) *Skipped[T] {
 func (iter *Filtered[T]) Take(n int) *Taken[T] {
 	return Take[T](iter, n)
 }
+
+func (iter *Filtered[T]) Collect() []T {
+	return Collect[T](iter)
+}

@@ -65,3 +65,7 @@ func (iter *Skipped[T]) StepBy(step int) *Stepped[T] {
 func (iter *Skipped[T]) Take(n int) *Taken[T] {
 	return Take[T](iter, n)
 }
+
+func (iter *Skipped[T]) Collect() []T {
+	return Collect[T](iter)
+}

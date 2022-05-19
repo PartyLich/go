@@ -189,6 +189,17 @@ func Fold[T any, O any](iter Iterable[T], init O, fn func(O, T) O) O {
 	return Reduce(iter, init, fn)
 }
 
+// Collect transforms an iterator into a slice.
+func Collect[T any](iter Iterable[T]) []T {
+	var out []T
+
+	for next := iter.Next(); next != nil; next = iter.Next() {
+		out = append(out, *next)
+	}
+
+	return out
+}
+
 // Count consumes the iterator, counting the number of iterations and returning
 // it.
 func Count[T any](iter Iterable[T]) int {

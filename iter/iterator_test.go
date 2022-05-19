@@ -145,3 +145,21 @@ func ExampleIterator_Take() {
 	// Output:
 	// -1
 }
+
+func ExampleIterator_Collect() {
+	list := []int{1, 2, 3, 4}
+	i := iter.New(list)
+
+	copied := i.Collect()
+	fmt.Println(copied)
+
+	// Collected slice should contain copies
+	copied[0] = 42
+	fmt.Println(list)
+	fmt.Println(copied)
+
+	// Output:
+	// [1 2 3 4]
+	// [1 2 3 4]
+	// [42 2 3 4]
+}
