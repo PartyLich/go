@@ -1,3 +1,7 @@
+## iter
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/PartyLich/go/iter)](https://goreportcard.com/report/github.com/PartyLich/go/iter)
+
 Golang generic Iterators, with an intentionally Rust-y flavor.
 
 I have zero expectation that any other party will use this. There are very likely better and more
