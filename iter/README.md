@@ -24,4 +24,6 @@ methods in the language](https://go.googlesource.com/proposal/+/refs/heads/maste
 it, I'll rewrite accordingly.
 
 
-MIT or Apache 2.0 license
+## License
+
+SPDX-License-Identifier: MIT or Apache 2.0 license
