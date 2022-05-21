@@ -100,6 +100,21 @@ func Example_compose() {
 	// 8
 }
 
+func Example_compose_fluent() {
+	list := []int{1, 2, 3, 4}
+	double := func(n int) int { return n * 2 }
+	gt5 := func(n int) bool { return n > 5 }
+
+	i := iter.New(list)
+	iter.Map[int, int](i, double).
+		Filter(gt5).
+		ForEach(func(val int) { fmt.Println(val) })
+
+	// Output:
+	// 6
+	// 8
+}
+
 func ExampleCollect() {
 	list := []int{1, 2, 3, 4}
 	i := iter.New(list)
