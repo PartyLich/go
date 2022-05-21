@@ -10,7 +10,6 @@ func ExampleSkipped_Count() {
 	i := iter.New([]int{1, 2, 3, 4, 5}).Skip(3)
 
 	fmt.Println(i.Count())
-
 	// Output:
 	// 2
 }
@@ -27,7 +26,6 @@ func ExampleSkipped_Filter() {
 	for val := f.Next(); val != nil; val = f.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 4
 }
@@ -40,7 +38,6 @@ func ExampleSkipped_SkipWhile() {
 
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// 4
 	// <nil>
@@ -58,7 +55,6 @@ func ExampleSkipped_Partition() {
 	for _, v := range b {
 		fmt.Println(v)
 	}
-
 	// Output:
 	// 4
 	// 6
@@ -75,7 +71,6 @@ func ExampleSkipped_Chain() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 3
 	// 4
@@ -90,7 +85,6 @@ func ExampleSkipped_StepBy() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 3
 	// 5
@@ -104,7 +98,6 @@ func ExampleSkipped_TakeWhile() {
 	fmt.Println(*i.Next())
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// 6
 	// 7
@@ -118,7 +111,6 @@ func ExampleSkipped_Take() {
 
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// -3
 	// <nil>
@@ -129,7 +121,6 @@ func ExampleSkipped_ForEach() {
 
 	iter.New(list).Skip(2).
 		ForEach(func(i int) { fmt.Println(i) })
-
 	// Output:
 	// 3
 	// 4
@@ -141,7 +132,6 @@ func ExampleSkipped_Nth() {
 	i := iter.New(list).Skip(2).Nth(1)
 
 	fmt.Println(*i)
-
 	// Output:
 	// 4
 }

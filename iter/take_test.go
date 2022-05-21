@@ -10,7 +10,6 @@ func ExampleTaken_Count() {
 	i := iter.New([]int{1, 2, 3, 4, 5}).Take(3)
 
 	fmt.Println(i.Count())
-
 	// Output:
 	// 3
 }
@@ -27,7 +26,6 @@ func ExampleTaken_Filter() {
 	for val := f.Next(); val != nil; val = f.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 2
 }
@@ -44,7 +42,6 @@ func ExampleTaken_Partition() {
 	for _, v := range b {
 		fmt.Println(v)
 	}
-
 	// Output:
 	// 2
 	// 1
@@ -59,7 +56,6 @@ func ExampleTaken_Chain() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 1
 	// 2
@@ -75,7 +71,6 @@ func ExampleTaken_StepBy() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 1
 }
@@ -87,7 +82,6 @@ func ExampleTaken_TakeWhile() {
 	i := iter.New(list).Take(2).TakeWhile(isPos)
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// 1
 	// <nil>
@@ -101,7 +95,6 @@ func ExampleTaken_SkipWhile() {
 
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// 2
 	// <nil>
@@ -115,7 +108,6 @@ func ExampleTaken_Skip() {
 	fmt.Println(*i.Next())
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// -2
 	// -3
@@ -127,7 +119,6 @@ func ExampleTaken_ForEach() {
 
 	iter.New(list).Take(3).
 		ForEach(func(i int) { fmt.Println(i) })
-
 	// Output:
 	// 1
 	// 2
@@ -140,7 +131,6 @@ func ExampleTaken_Nth() {
 	i := iter.New(list).Take(3).Nth(1)
 
 	fmt.Println(*i)
-
 	// Output:
 	// -2
 }

@@ -10,7 +10,6 @@ func ExampleRevIterator_Count() {
 	i := iter.New([]int{1, 2, 3, 4, 5}).Rev()
 
 	fmt.Println(i.Count())
-
 	// Output:
 	// 5
 }
@@ -28,7 +27,6 @@ func ExampleRevIterator_Filter() {
 	for val := f.Next(); val != nil; val = f.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 4
 	// 3
@@ -45,7 +43,6 @@ func ExampleRevIterator_SkipWhile() {
 	fmt.Println(*i.Next())
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// 4
 	// 3
@@ -66,7 +63,6 @@ func ExampleRevIterator_Partition() {
 	for _, v := range b {
 		fmt.Println(v)
 	}
-
 	// Output:
 	// 4
 	// 2
@@ -83,7 +79,6 @@ func ExampleRevIterator_Chain() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 3
 	// 2
@@ -100,7 +95,6 @@ func ExampleRevIterator_StepBy() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 6
 	// 4
@@ -115,7 +109,6 @@ func ExampleRevIterator_TakeWhile() {
 	fmt.Println(*i.Next())
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// 4
 	// 3
@@ -130,7 +123,6 @@ func ExampleRevIterator_Skip() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// -3
 	// -2
@@ -144,7 +136,6 @@ func ExampleRevIterator_Take() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 4
 }
@@ -154,7 +145,6 @@ func ExampleRevIterator_ForEach() {
 
 	iter.New(list).Rev().
 		ForEach(func(i int) { fmt.Println(i) })
-
 	// Output:
 	// 4
 	// 3
@@ -167,7 +157,6 @@ func ExampleRevIterator_Nth() {
 	i := iter.New(list).Rev().Nth(1)
 
 	fmt.Println(*i)
-
 	// Output:
 	// -3
 }

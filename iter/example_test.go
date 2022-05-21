@@ -14,7 +14,6 @@ func ExampleNew() {
 	fmt.Println(*i.Next())
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// 1
 	// 2
@@ -30,7 +29,6 @@ func ExampleIterable_Next() {
 	fmt.Println(*i.Next())
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// 1
 	// 2
@@ -45,7 +43,6 @@ func ExampleIterable_Find() {
 
 	fmt.Println(*i.Find(isTwo))
 	fmt.Println(i.Find(isTwo))
-
 	// Output:
 	// 2
 	// <nil>
@@ -59,7 +56,6 @@ func ExampleIterator_Rev() {
 	fmt.Println(*i.Next())
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// 3
 	// 2
@@ -76,7 +72,6 @@ func ExampleMap() {
 	for val := doubled.Next(); val != nil; val = doubled.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 2
 	// 4
@@ -94,7 +89,6 @@ func Example_compose() {
 	for val := f.Next(); val != nil; val = f.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 6
 	// 8
@@ -109,7 +103,6 @@ func Example_compose_fluent() {
 	iter.Map[int, int](i, double).
 		Filter(gt5).
 		ForEach(func(val int) { fmt.Println(val) })
-
 	// Output:
 	// 6
 	// 8
@@ -123,7 +116,6 @@ func ExampleCollect() {
 		Filter(func(n int) bool { return n > 5 })
 
 	fmt.Println(iter.Collect[int](doubled))
-
 	// Output:
 	// [6 8]
 }
@@ -137,7 +129,6 @@ func ExampleCollect_fluent() {
 		Collect()
 
 	fmt.Println(doubled)
-
 	// Output:
 	// [6 8]
 }
@@ -150,7 +141,6 @@ func ExampleForEach() {
 
 	i := iter.New(list)
 	iter.ForEach[int](i, fn)
-
 	// Output:
 	// 1
 	// 2
@@ -165,7 +155,6 @@ func ExampleForEach_inline() {
 	iter.ForEach[int](i, func(i int) {
 		fmt.Println(i)
 	})
-
 	// Output:
 	// 1
 	// 2
@@ -178,7 +167,6 @@ func ExampleForEach_fluent() {
 
 	iter.New(list).
 		ForEach(func(i int) { fmt.Println(i) })
-
 	// Output:
 	// 1
 	// 2
@@ -194,7 +182,6 @@ func ExampleNth() {
 	fmt.Println(*iter.Nth[int](i, 0))
 	// i only has 2 elements left, so n = 2 is out of range
 	fmt.Println(iter.Nth[int](i, 2))
-
 	// Output:
 	// 1
 	// 2
@@ -206,7 +193,6 @@ func ExampleNth_fluent() {
 	n := iter.New(list).Nth(2)
 
 	fmt.Println(*n)
-
 	// Output:
 	// 3
 }
@@ -224,7 +210,6 @@ func ExampleChain() {
 	fmt.Println(*iter.Next())
 	fmt.Println(*iter.Next())
 	fmt.Println(iter.Next())
-
 	// Output:
 	// 1
 	// 2
@@ -245,7 +230,6 @@ func ExampleTakeWhile() {
 		fmt.Println(*val)
 	}
 	fmt.Println(iter.Next())
-
 	// Output:
 	// -1
 	// -2
@@ -262,7 +246,6 @@ func ExampleSkipWhile() {
 		fmt.Println(*val)
 	}
 	fmt.Println(iter.Next())
-
 	// Output:
 	// 3
 	// 4
@@ -273,7 +256,6 @@ func ExampleCount() {
 	i := iter.New([]int{1, 2, 3, 4, 5})
 
 	fmt.Println(iter.Count[int](i))
-
 	// Output:
 	// 5
 }
@@ -285,7 +267,6 @@ func Example_filterCount() {
 	f := iter.Filter[int](i, func(n int) bool { return n%2 == 0 })
 
 	fmt.Println(iter.Count[int](f))
-
 	// Output:
 	// 2
 }
@@ -297,7 +278,6 @@ func Example_filterCount_fluent() {
 		Count()
 
 	fmt.Println(c)
-
 	// Output:
 	// 2
 }
