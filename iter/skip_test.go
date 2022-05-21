@@ -3,7 +3,7 @@ package iter_test
 import (
 	"fmt"
 
-	"github.com/PartyLich/go/iter"
+	"github.com/partylich/go/iter"
 )
 
 func ExampleSkipped_Count() {
