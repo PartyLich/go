@@ -274,3 +274,15 @@ func Example_filterCount() {
 	// Output:
 	// 2
 }
+
+func Example_filterCount_fluent() {
+	list := []int{1, 2, 3, 4}
+	c := iter.New(list).
+		Filter(func(n int) bool { return n%2 == 0 }).
+		Count()
+
+	fmt.Println(c)
+
+	// Output:
+	// 2
+}
