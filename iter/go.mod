@@ -1,3 +1,3 @@
-module github.com/PartyLich/go/iter
+module github.com/partylich/go/iter
 
 go 1.18
