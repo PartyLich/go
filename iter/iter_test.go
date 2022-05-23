@@ -73,7 +73,7 @@ func TestRevFind(t *testing.T) {
 
 	i := New(list).Rev()
 	assertEq(t, *i.Find(pred), 2)
-	assertEq(t, i.idx, 0)
+	assertEq(t, i.it.idx, 0)
 	assertEq(t, *i.Next(), 1)
 	assertEq(t, i.Find(pred), nil)
 }

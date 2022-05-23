@@ -52,7 +52,7 @@ func (iter *Iterator[T]) Find(pred func(T) bool) *T {
 }
 
 type RevIterator[T any] struct {
-	Iterator[T]
+	it Iterator[T]
 }
 
 // Rev reverses the iteration order of this iterator
@@ -72,12 +72,12 @@ func (iter *Iterator[T]) Rev() *RevIterator[T] {
 }
 
 func (iter *RevIterator[T]) Next() *T {
-	if iter.idx < 0 {
+	if iter.it.idx < 0 {
 		return nil
 	}
 
-	next := &iter.slice[iter.idx]
-	iter.idx -= 1
+	next := &iter.it.slice[iter.it.idx]
+	iter.it.idx -= 1
 
 	return next
 }
@@ -92,9 +92,9 @@ func (iter *RevIterator[T]) Next() *T {
 // Find is short-circuiting; in other words, it will stop processing as soon as
 // the closure returns `true`.
 func (iter *RevIterator[T]) Find(pred func(T) bool) *T {
-	for iter.idx >= 0 {
-		next := iter.slice[iter.idx]
-		iter.idx--
+	for iter.it.idx >= 0 {
+		next := iter.it.slice[iter.it.idx]
+		iter.it.idx--
 
 		if pred(next) {
 			return &next
