@@ -135,40 +135,6 @@ func (iter *Mapped[T, O]) Find(pred func(O) bool) *O {
 	return nil
 }
 
-type Filtered[T any] struct {
-	iter Iterable[T]
-	pred func(T) bool
-}
-
-// Filter returns an iterator which uses a function to determine if an
-// element should be yielded.
-//
-// The returned iterator will yield only the elements for which the closure
-// returns true.
-func Filter[T any](iter Iterable[T], pred func(T) bool) *Filtered[T] {
-	return &Filtered[T]{iter, pred}
-}
-
-func (f *Filtered[T]) Next() *T {
-	next := f.iter.Find(f.pred)
-
-	if next == nil || !f.pred(*next) {
-		return nil
-	}
-
-	return next
-}
-
-func (iter *Filtered[T]) Find(pred func(T) bool) *T {
-	for next := iter.Next(); next != nil; next = iter.Next() {
-		if pred(*next) {
-			return next
-		}
-	}
-
-	return nil
-}
-
 // Reduce repeatedly applies a reducing operation, reducing the iterator to a
 // single element
 func Reduce[T any, O any](iter Iterable[T], init O, fn func(O, T) O) O {
