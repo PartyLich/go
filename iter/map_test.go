@@ -181,3 +181,27 @@ func ExampleMapped_Nth() {
 	// Output:
 	// 3
 }
+
+func ExampleMapped_All() {
+	gt0 := func(a int) bool { return a > 0 }
+	gt2 := func(a int) bool { return a > 2 }
+	ident := func(i int) int { return i }
+	list := []int{1, 2, 3}
+
+	i := iter.New(list)
+	t := iter.Map[int, int](i, ident).All(gt0)
+	fmt.Println(t)
+
+	i = iter.New(list)
+	m := iter.Map[int, int](i, ident)
+	f := m.All(gt2)
+	fmt.Println(f)
+	// All stops at the first false, so there are still more elements
+	fmt.Println(*i.Next())
+	fmt.Println(*i.Next())
+	// Output:
+	// true
+	// false
+	// 2
+	// 3
+}

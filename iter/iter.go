@@ -435,3 +435,24 @@ func (iter *TakeWhileT[T]) Find(pred func(T) bool) *T {
 
 	return nil
 }
+
+// All tests if every element of the iterator matches a predicate.
+//
+// All takes a function that returns true or false. It applies this function to
+// each element of the iterator, and if they all return true, then so does All.
+// If any of them return false, it returns false.
+//
+// All is short-circuiting; in other words, it will stop processing as soon as
+// it finds a false, given that no matter what else happens, the result will
+// also be false.
+//
+// An empty iterator returns true.
+func All[T any](iter Iterable[T], pred func(T) bool) bool {
+	for next := iter.Next(); next != nil; next = iter.Next() {
+		if !pred(*next) {
+			return false
+		}
+	}
+
+	return true
+}

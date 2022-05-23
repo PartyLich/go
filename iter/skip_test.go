@@ -135,3 +135,22 @@ func ExampleSkipped_Nth() {
 	// Output:
 	// 4
 }
+
+func ExampleSkipped_All() {
+	gt0 := func(a int) bool { return a > 0 }
+	gt2 := func(a int) bool { return a > 2 }
+	list := []int{1, 2, 3}
+
+	t := iter.New(list).Skip(1).All(gt0)
+	fmt.Println(t)
+
+	i := iter.New(list).Skip(1)
+	f := i.All(gt2)
+	fmt.Println(f)
+	// All stops at the first false, so there are still more elements
+	fmt.Println(*i.Next())
+	// Output:
+	// true
+	// false
+	// 3
+}

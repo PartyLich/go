@@ -47,3 +47,7 @@ func (iter *Filtered[T]) ForEach(fn func(T)) {
 func (iter *Filtered[T]) Nth(n int) *T {
 	return Nth[T](iter, n)
 }
+
+func (iter *Filtered[T]) All(pred func(T) bool) bool {
+	return All[T](iter, pred)
+}

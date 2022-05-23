@@ -388,3 +388,15 @@ func TestTake_Find(t *testing.T) {
 	assertEq(t, *i.Find(pred), -2)
 	assertEq(t, i.Find(pred), nil)
 }
+
+func TestAll(t *testing.T) {
+	list := []int{-4, -2, 2, 4}
+	isPos := func(i int) bool { return i >= 0 }
+	isEven := func(a int) bool { return a%2 == 0 }
+
+	assertEq(t, All[int](New(list), isPos), false)
+	assertEq(t, All[int](New(list), isEven), true)
+
+	assertEq(t, All[int](New([]int{}), isEven), true)
+	assertEq(t, All[int](New([]int{}), isPos), true)
+}

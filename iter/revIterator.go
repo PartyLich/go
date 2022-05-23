@@ -47,3 +47,7 @@ func (iter *RevIterator[T]) ForEach(fn func(T)) {
 func (iter *RevIterator[T]) Nth(n int) *T {
 	return Nth[T](iter, n)
 }
+
+func (iter *RevIterator[T]) All(pred func(T) bool) bool {
+	return All[T](iter, pred)
+}

@@ -132,3 +132,22 @@ func ExampleStepped_Nth() {
 	// Output:
 	// -3
 }
+
+func ExampleStepped_All() {
+	gt0 := func(a int) bool { return a > 0 }
+	gt2 := func(a int) bool { return a > 2 }
+	list := []int{1, 2, 3, 4}
+
+	t := iter.New(list).StepBy(2).All(gt0)
+	fmt.Println(t)
+
+	i := iter.New(list).StepBy(2)
+	f := i.All(gt2)
+	fmt.Println(f)
+	// All stops at the first false, so there are still more elements
+	fmt.Println(*i.Next())
+	// Output:
+	// true
+	// false
+	// 3
+}

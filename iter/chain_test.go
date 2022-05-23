@@ -179,3 +179,26 @@ func ExampleChained_Nth() {
 	// Output:
 	// 4
 }
+
+func ExampleChained_All() {
+	gt0 := func(a int) bool { return a > 0 }
+	gt2 := func(a int) bool { return a > 2 }
+	a1 := []int{1, 2, 3}
+	a2 := []int{4, 5, 6}
+
+	t := iter.New(a1).Chain(iter.New(a2)).All(gt0)
+	fmt.Println(t)
+
+	i := iter.New(a1).Chain(iter.New(a2))
+	f := i.All(gt2)
+	fmt.Println(f)
+	// All stops at the first false, so there are still more elements
+	fmt.Println(*i.Next())
+	fmt.Println(*i.Next())
+
+	// Output:
+	// true
+	// false
+	// 2
+	// 3
+}

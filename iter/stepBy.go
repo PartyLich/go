@@ -43,3 +43,7 @@ func (iter *Stepped[T]) ForEach(fn func(T)) {
 func (iter *Stepped[T]) Nth(n int) *T {
 	return Nth[T](iter, n)
 }
+
+func (iter *Stepped[T]) All(pred func(T) bool) bool {
+	return All[T](iter, pred)
+}

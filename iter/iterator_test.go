@@ -174,3 +174,24 @@ func ExampleIterator_Nth() {
 	// Output:
 	// -2
 }
+
+func ExampleIterator_All() {
+	gt0 := func(a int) bool { return a > 0 }
+	gt2 := func(a int) bool { return a > 2 }
+	list := []int{1, 2, 3}
+
+	t := iter.New(list).All(gt0)
+	fmt.Println(t)
+
+	i := iter.New(list)
+	f := i.All(gt2)
+	fmt.Println(f)
+	// All stops at the first false, so there are still more elements
+	fmt.Println(*i.Next())
+	fmt.Println(*i.Next())
+	// Output:
+	// true
+	// false
+	// 2
+	// 3
+}
