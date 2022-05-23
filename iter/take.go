@@ -74,3 +74,11 @@ func (iter *Taken[T]) ForEach(fn func(T)) {
 func (iter *Taken[T]) Nth(n int) *T {
 	return Nth[T](iter, n)
 }
+
+func (iter *Taken[T]) All(pred func(T) bool) bool {
+	return All[T](iter, pred)
+}
+
+func (iter *Taken[T]) Any(pred func(T) bool) bool {
+	return Any[T](iter, pred)
+}

@@ -10,7 +10,6 @@ func ExampleIterator_Count() {
 	i := iter.New([]int{1, 2, 3, 4, 5})
 
 	fmt.Println(i.Count())
-
 	// Output:
 	// 5
 }
@@ -27,7 +26,6 @@ func ExampleIterator_Filter() {
 	for val := f.Next(); val != nil; val = f.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 3
 	// 4
@@ -43,7 +41,6 @@ func ExampleIterator_SkipWhile() {
 	fmt.Println(*i.Next())
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// 2
 	// 3
@@ -63,7 +60,6 @@ func ExampleIterator_Partition() {
 	for _, v := range b {
 		fmt.Println(v)
 	}
-
 	// Output:
 	// 2
 	// 4
@@ -80,7 +76,6 @@ func ExampleIterator_Chain() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 1
 	// 2
@@ -97,7 +92,6 @@ func ExampleIterator_StepBy() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 1
 	// 3
@@ -112,7 +106,6 @@ func ExampleIterator_TakeWhile() {
 	fmt.Println(*i.Next())
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// -1
 	// -2
@@ -127,7 +120,6 @@ func ExampleIterator_Skip() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// -2
 	// -3
@@ -141,7 +133,6 @@ func ExampleIterator_Take() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// -1
 }
@@ -157,7 +148,6 @@ func ExampleIterator_Collect() {
 	copied[0] = 42
 	fmt.Println(list)
 	fmt.Println(copied)
-
 	// Output:
 	// [1 2 3 4]
 	// [1 2 3 4]
@@ -169,7 +159,6 @@ func ExampleIterator_ForEach() {
 
 	iter.New(list).
 		ForEach(func(i int) { fmt.Println(i) })
-
 	// Output:
 	// 1
 	// 2
@@ -182,7 +171,48 @@ func ExampleIterator_Nth() {
 	i := iter.New(list).Nth(1)
 
 	fmt.Println(*i)
-
 	// Output:
 	// -2
+}
+
+func ExampleIterator_All() {
+	gt0 := func(a int) bool { return a > 0 }
+	gt2 := func(a int) bool { return a > 2 }
+	list := []int{1, 2, 3}
+
+	t := iter.New(list).All(gt0)
+	fmt.Println(t)
+
+	i := iter.New(list)
+	f := i.All(gt2)
+	fmt.Println(f)
+	// All stops at the first false, so there are still more elements
+	fmt.Println(*i.Next())
+	fmt.Println(*i.Next())
+	// Output:
+	// true
+	// false
+	// 2
+	// 3
+}
+
+func ExampleIterator_Any() {
+	gt0 := func(a int) bool { return a > 0 }
+	ne2 := func(a int) bool { return a != 2 }
+	list := []int{1, 2, 3}
+
+	t := iter.New(list).Any(gt0)
+	fmt.Println(t)
+
+	i := iter.New(list)
+	f := i.Any(ne2)
+	fmt.Println(f)
+	// Any stops at the first true, so there are still more elements
+	fmt.Println(*i.Next())
+	fmt.Println(*i.Next())
+	// Output:
+	// true
+	// true
+	// 2
+	// 3
 }

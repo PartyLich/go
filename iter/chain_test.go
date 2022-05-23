@@ -13,7 +13,6 @@ func ExampleChained_Count() {
 	i := iter.New(a1).Chain(iter.New(a2))
 
 	fmt.Println(i.Count())
-
 	// Output:
 	// 6
 }
@@ -32,7 +31,6 @@ func ExampleChained_Filter() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 2
 	// 4
@@ -52,7 +50,6 @@ func ExampleChained_Partition() {
 	for _, v := range b {
 		fmt.Println(v)
 	}
-
 	// Output:
 	// 6
 	// 1
@@ -70,7 +67,6 @@ func ExampleChained_Chain() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 1
 	// 2
@@ -90,7 +86,6 @@ func ExampleChained_StepBy() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 2
 	// 4
@@ -107,7 +102,6 @@ func ExampleChained_TakeWhile() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 1
 	// 2
@@ -125,7 +119,6 @@ func ExampleChained_SkipWhile() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 3
 	// 4
@@ -141,7 +134,6 @@ func ExampleChained_Skip() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 3
 	// 4
@@ -157,7 +149,6 @@ func ExampleChained_Take() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 1
 	// 2
@@ -169,7 +160,6 @@ func ExampleChained_ForEach() {
 
 	iter.New(a1).Chain(iter.New(a2)).
 		ForEach(func(i int) { fmt.Println(i) })
-
 	// Output:
 	// 1
 	// 2
@@ -186,7 +176,50 @@ func ExampleChained_Nth() {
 	i := iter.New(a1).Chain(iter.New(a2)).Nth(3)
 
 	fmt.Println(*i)
-
 	// Output:
 	// 4
+}
+
+func ExampleChained_All() {
+	gt0 := func(a int) bool { return a > 0 }
+	gt2 := func(a int) bool { return a > 2 }
+	a1 := []int{1, 2, 3}
+	a2 := []int{4, 5, 6}
+
+	t := iter.New(a1).Chain(iter.New(a2)).All(gt0)
+	fmt.Println(t)
+
+	i := iter.New(a1).Chain(iter.New(a2))
+	f := i.All(gt2)
+	fmt.Println(f)
+	// All stops at the first false, so there are still more elements
+	fmt.Println(*i.Next())
+	fmt.Println(*i.Next())
+	// Output:
+	// true
+	// false
+	// 2
+	// 3
+}
+
+func ExampleChained_Any() {
+	gt0 := func(a int) bool { return a > 0 }
+	ne2 := func(a int) bool { return a != 2 }
+	a1 := []int{1, 2}
+	a2 := []int{3, 4}
+
+	t := iter.New(a1).Chain(iter.New(a2)).Any(gt0)
+	fmt.Println(t)
+
+	i := iter.New(a1).Chain(iter.New(a2))
+	f := i.Any(ne2)
+	fmt.Println(f)
+	// Any stops at the first true, so there are still more elements
+	fmt.Println(*i.Next())
+	fmt.Println(*i.Next())
+	// Output:
+	// true
+	// true
+	// 2
+	// 3
 }

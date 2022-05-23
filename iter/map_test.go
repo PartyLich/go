@@ -11,7 +11,6 @@ func ExampleMapped_Count() {
 	i := iter.New([]int{1, 2, 3, 4, 5})
 
 	fmt.Println(iter.Map[int, int](i, ident).Count())
-
 	// Output:
 	// 5
 }
@@ -29,7 +28,6 @@ func ExampleMapped_Filter() {
 	for val := f.Next(); val != nil; val = f.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 3
 	// 4
@@ -46,7 +44,6 @@ func ExampleMapped_SkipWhile() {
 	fmt.Println(*i.Next())
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// 2
 	// 3
@@ -68,7 +65,6 @@ func ExampleMapped_Partition() {
 	for _, v := range b {
 		fmt.Println(v)
 	}
-
 	// Output:
 	// 2
 	// 4
@@ -87,7 +83,6 @@ func ExampleMapped_Chain() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 1
 	// 2
@@ -107,7 +102,6 @@ func ExampleMapped_StepBy() {
 	for val := m.Next(); val != nil; val = m.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 1
 	// 3
@@ -125,7 +119,6 @@ func ExampleMapped_TakeWhile() {
 	fmt.Println(*m.Next())
 	fmt.Println(*m.Next())
 	fmt.Println(m.Next())
-
 	// Output:
 	// -1
 	// -2
@@ -141,7 +134,6 @@ func ExampleMapped_Skip() {
 	fmt.Println(*i.Next())
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// 3
 	// 4
@@ -158,7 +150,6 @@ func ExampleMapped_Take() {
 	fmt.Println(*m.Next())
 	fmt.Println(*m.Next())
 	fmt.Println(m.Next())
-
 	// Output:
 	// -1
 	// -2
@@ -172,7 +163,6 @@ func ExampleMapped_ForEach() {
 	i := iter.New(list)
 	iter.Map[int, int](i, ident).
 		ForEach(func(i int) { fmt.Println(i) })
-
 	// Output:
 	// 1
 	// 2
@@ -188,7 +178,52 @@ func ExampleMapped_Nth() {
 	m := iter.Map[int, int](i, ident).Nth(2)
 
 	fmt.Println(*m)
-
 	// Output:
 	// 3
+}
+
+func ExampleMapped_All() {
+	gt0 := func(a int) bool { return a > 0 }
+	gt2 := func(a int) bool { return a > 2 }
+	ident := func(i int) int { return i }
+	list := []int{1, 2, 3}
+
+	i := iter.New(list)
+	t := iter.Map[int, int](i, ident).All(gt0)
+	fmt.Println(t)
+
+	i = iter.New(list)
+	m := iter.Map[int, int](i, ident)
+	f := m.All(gt2)
+	fmt.Println(f)
+	// All stops at the first false, so there are still more elements
+	fmt.Println(*i.Next())
+	fmt.Println(*i.Next())
+	// Output:
+	// true
+	// false
+	// 2
+	// 3
+}
+
+func ExampleMapped_Any() {
+	gt0 := func(a int) bool { return a > 0 }
+	ne2 := func(a int) bool { return a != 2 }
+	ident := func(i int) int { return i }
+	list := []int{1, 2, 3}
+
+	i := iter.New(list)
+	t := iter.Map[int, int](i, ident).Any(gt0)
+	fmt.Println(t)
+
+	i = iter.New(list)
+	m := iter.Map[int, int](i, ident)
+	f := m.Any(ne2)
+	fmt.Println(f)
+	// Any stops at the first true, so there are still more elements
+	fmt.Println(*i.Next())
+	// Output:
+	// true
+	// true
+	// 2
 }

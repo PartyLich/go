@@ -10,7 +10,6 @@ func ExampleStepped_Count() {
 	i := iter.New([]int{1, 2, 3, 4, 5}).StepBy(2)
 
 	fmt.Println(i.Count())
-
 	// Output:
 	// 3
 }
@@ -27,7 +26,6 @@ func ExampleStepped_Filter() {
 	for val := f.Next(); val != nil; val = f.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 2
 	// 4
@@ -42,7 +40,6 @@ func ExampleStepped_Partition() {
 
 	fmt.Println(a)
 	fmt.Println(b)
-
 	// Output:
 	// [5]
 	// [1 3]
@@ -57,7 +54,6 @@ func ExampleStepped_Chain() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 1
 	// 3
@@ -74,7 +70,6 @@ func ExampleStepped_TakeWhile() {
 	fmt.Println(*i.Next())
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// 1
 	// 6
@@ -89,7 +84,6 @@ func ExampleStepped_SkipWhile() {
 
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// 5
 	// <nil>
@@ -102,7 +96,6 @@ func ExampleStepped_Skip() {
 
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// -3
 	// <nil>
@@ -115,7 +108,6 @@ func ExampleStepped_Take() {
 
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// -1
 	// <nil>
@@ -126,7 +118,6 @@ func ExampleStepped_ForEach() {
 
 	iter.New(list).StepBy(2).
 		ForEach(func(i int) { fmt.Println(i) })
-
 	// Output:
 	// 1
 	// 3
@@ -138,7 +129,44 @@ func ExampleStepped_Nth() {
 	i := iter.New(list).StepBy(2).Nth(1)
 
 	fmt.Println(*i)
-
 	// Output:
 	// -3
+}
+
+func ExampleStepped_All() {
+	gt0 := func(a int) bool { return a > 0 }
+	gt2 := func(a int) bool { return a > 2 }
+	list := []int{1, 2, 3, 4}
+
+	t := iter.New(list).StepBy(2).All(gt0)
+	fmt.Println(t)
+
+	i := iter.New(list).StepBy(2)
+	f := i.All(gt2)
+	fmt.Println(f)
+	// All stops at the first false, so there are still more elements
+	fmt.Println(*i.Next())
+	// Output:
+	// true
+	// false
+	// 3
+}
+
+func ExampleStepped_Any() {
+	gt0 := func(a int) bool { return a > 0 }
+	ne2 := func(a int) bool { return a != 2 }
+	list := []int{1, 2, 3, 4}
+
+	t := iter.New(list).StepBy(2).Any(gt0)
+	fmt.Println(t)
+
+	i := iter.New(list).StepBy(2)
+	f := i.Any(ne2)
+	fmt.Println(f)
+	// Any stops at the first true, so there are still more elements
+	fmt.Println(*i.Next())
+	// Output:
+	// true
+	// true
+	// 3
 }

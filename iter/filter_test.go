@@ -11,7 +11,6 @@ func ExampleFiltered_Count() {
 	i := iter.New([]int{1, 2, 3, 4, 5}).Filter(isEven)
 
 	fmt.Println(i.Count())
-
 	// Output:
 	// 2
 }
@@ -46,7 +45,6 @@ func ExampleFiltered_Partition() {
 	for _, v := range b {
 		fmt.Println(v)
 	}
-
 	// Output:
 	// 6
 	// 2
@@ -63,7 +61,6 @@ func ExampleFiltered_Chain() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 2
 	// 4
@@ -79,7 +76,6 @@ func ExampleFiltered_StepBy() {
 	for val := i.Next(); val != nil; val = i.Next() {
 		fmt.Println(*val)
 	}
-
 	// Output:
 	// 2
 	// 6
@@ -94,7 +90,6 @@ func ExampleFiltered_TakeWhile() {
 	fmt.Println(*i.Next())
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// 2
 	// 6
@@ -110,7 +105,6 @@ func ExampleFiltered_SkipWhile() {
 
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// 4
 	// <nil>
@@ -124,7 +118,6 @@ func ExampleFiltered_Skip() {
 
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// 4
 	// <nil>
@@ -138,7 +131,6 @@ func ExampleFiltered_Take() {
 
 	fmt.Println(*i.Next())
 	fmt.Println(i.Next())
-
 	// Output:
 	// -2
 	// <nil>
@@ -150,7 +142,6 @@ func ExampleFiltered_ForEach() {
 
 	iter.New(list).Filter(isEven).
 		ForEach(func(i int) { fmt.Println(i) })
-
 	// Output:
 	// 2
 	// 4
@@ -163,7 +154,46 @@ func ExampleFiltered_Nth() {
 	i := iter.New(list).Filter(isEven).Nth(1)
 
 	fmt.Println(*i)
-
 	// Output:
+	// 4
+}
+
+func ExampleFiltered_All() {
+	gt0 := func(a int) bool { return a > 0 }
+	gt2 := func(a int) bool { return a > 2 }
+	list := []int{1, 2, 3, 4}
+
+	t := iter.New(list).Filter(gt2).All(gt0)
+	fmt.Println(t)
+
+	i := iter.New(list).Filter(gt0)
+	f := i.All(gt2)
+	fmt.Println(f)
+	// All stops at the first false, so there are still more elements
+	fmt.Println(*i.Next())
+	fmt.Println(*i.Next())
+	// Output:
+	// true
+	// false
+	// 2
+	// 3
+}
+
+func ExampleFiltered_Any() {
+	gt0 := func(a int) bool { return a > 0 }
+	gt2 := func(a int) bool { return a > 2 }
+	list := []int{1, 2, 3, 4}
+
+	t := iter.New(list).Filter(gt2).Any(gt0)
+	fmt.Println(t)
+
+	i := iter.New(list).Filter(gt0)
+	f := i.Any(gt2)
+	fmt.Println(f)
+	// Any stops at the first true, so there are still more elements
+	fmt.Println(*i.Next())
+	// Output:
+	// true
+	// true
 	// 4
 }

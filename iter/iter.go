@@ -52,7 +52,7 @@ func (iter *Iterator[T]) Find(pred func(T) bool) *T {
 }
 
 type RevIterator[T any] struct {
-	Iterator[T]
+	it Iterator[T]
 }
 
 // Rev reverses the iteration order of this iterator
@@ -72,12 +72,12 @@ func (iter *Iterator[T]) Rev() *RevIterator[T] {
 }
 
 func (iter *RevIterator[T]) Next() *T {
-	if iter.idx < 0 {
+	if iter.it.idx < 0 {
 		return nil
 	}
 
-	next := &iter.slice[iter.idx]
-	iter.idx -= 1
+	next := &iter.it.slice[iter.it.idx]
+	iter.it.idx -= 1
 
 	return next
 }
@@ -92,9 +92,9 @@ func (iter *RevIterator[T]) Next() *T {
 // Find is short-circuiting; in other words, it will stop processing as soon as
 // the closure returns `true`.
 func (iter *RevIterator[T]) Find(pred func(T) bool) *T {
-	for iter.idx >= 0 {
-		next := iter.slice[iter.idx]
-		iter.idx--
+	for iter.it.idx >= 0 {
+		next := iter.it.slice[iter.it.idx]
+		iter.it.idx--
 
 		if pred(next) {
 			return &next
@@ -434,4 +434,46 @@ func (iter *TakeWhileT[T]) Find(pred func(T) bool) *T {
 	}
 
 	return nil
+}
+
+// All tests if every element of the iterator matches a predicate.
+//
+// All takes a function that returns true or false. It applies this function to
+// each element of the iterator, and if they all return true, then so does All.
+// If any of them return false, it returns false.
+//
+// All is short-circuiting; in other words, it will stop processing as soon as
+// it finds a false, given that no matter what else happens, the result will
+// also be false.
+//
+// An empty iterator returns true.
+func All[T any](iter Iterable[T], pred func(T) bool) bool {
+	for next := iter.Next(); next != nil; next = iter.Next() {
+		if !pred(*next) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// Any tests if any element of the iterator matches a predicate.
+//
+// Any takes a function that returns true or false. It applies this function to
+// each element of the iterator, and if any of them return true, then so does
+// Any. If they all return false, it returns false.
+//
+// Any is short-circuiting; in other words, it will stop processing as soon as
+// it finds a true, given that no matter what else happens, the result will also
+// be true.
+//
+// An empty iterator returns false.
+func Any[T any](iter Iterable[T], pred func(T) bool) bool {
+	for next := iter.Next(); next != nil; next = iter.Next() {
+		if pred(*next) {
+			return true
+		}
+	}
+
+	return false
 }

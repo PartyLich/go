@@ -47,3 +47,11 @@ func (iter *Chained[T]) ForEach(fn func(T)) {
 func (iter *Chained[T]) Nth(n int) *T {
 	return Nth[T](iter, n)
 }
+
+func (iter *Chained[T]) All(pred func(T) bool) bool {
+	return All[T](iter, pred)
+}
+
+func (iter *Chained[T]) Any(pred func(T) bool) bool {
+	return Any[T](iter, pred)
+}
