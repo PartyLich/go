@@ -1,5 +1,7 @@
 package iter
 
+import is "golang.org/x/exp/constraints"
+
 type Iterable[T any] interface {
 	// Next advances the iterator and returns the next value.
 	//
@@ -162,4 +164,28 @@ func Any[T any](iter Iterable[T], pred func(T) bool) bool {
 	}
 
 	return false
+}
+
+// Min returns the minimum element of an iterator.
+func Min[T is.Ordered](iter Iterable[T]) *T {
+	var min *T
+	for next := iter.Next(); next != nil; next = iter.Next() {
+		if min == nil || *min > *next {
+			min = next
+		}
+	}
+
+	return min
+}
+
+// Max returns the maximum element of an iterator.
+func Max[T is.Ordered](iter Iterable[T]) *T {
+	var max *T
+	for next := iter.Next(); next != nil; next = iter.Next() {
+		if max == nil || *max < *next {
+			max = next
+		}
+	}
+
+	return max
 }

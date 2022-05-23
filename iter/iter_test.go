@@ -412,3 +412,27 @@ func TestAny(t *testing.T) {
 	assertEq(t, Any[int](New([]int{}), isOdd), false)
 	assertEq(t, Any[int](New([]int{}), isPos), false)
 }
+
+func TestMin(t *testing.T) {
+	list := []int{-4, -2, 2, 4}
+	i := New(list)
+
+	assertEq(t, *Min[int](i), -4)
+
+	assertEq(t, Min[int](New([]int{})), nil)
+
+	s := []string{"abc", "bcd"}
+	assertEq(t, *Min[string](New(s)), "abc")
+}
+
+func TestMax(t *testing.T) {
+	list := []int{-4, -2, 2, 4}
+	i := New(list)
+
+	assertEq(t, *Max[int](i), 4)
+
+	assertEq(t, Max[int](New([]int{})), nil)
+
+	s := []string{"abc", "bcd"}
+	assertEq(t, *Max[string](New(s)), "bcd")
+}
