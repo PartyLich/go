@@ -198,13 +198,11 @@ func ExampleNth_fluent() {
 }
 
 func ExampleChain() {
-	a1 := []int{1, 2, 3}
-	a2 := []int{4, 5, 6}
+	a1 := []int{1, 2}
+	a2 := []int{3, 4}
 
 	iter := iter.Chain[int](iter.New(a1), iter.New(a2))
 
-	fmt.Println(*iter.Next())
-	fmt.Println(*iter.Next())
 	fmt.Println(*iter.Next())
 	fmt.Println(*iter.Next())
 	fmt.Println(*iter.Next())
@@ -215,8 +213,6 @@ func ExampleChain() {
 	// 2
 	// 3
 	// 4
-	// 5
-	// 6
 	// <nil>
 }
 
