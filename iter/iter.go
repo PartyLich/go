@@ -456,3 +456,24 @@ func All[T any](iter Iterable[T], pred func(T) bool) bool {
 
 	return true
 }
+
+// Any tests if any element of the iterator matches a predicate.
+//
+// Any takes a function that returns true or false. It applies this function to
+// each element of the iterator, and if any of them return true, then so does
+// Any. If they all return false, it returns false.
+//
+// Any is short-circuiting; in other words, it will stop processing as soon as
+// it finds a true, given that no matter what else happens, the result will also
+// be true.
+//
+// An empty iterator returns false.
+func Any[T any](iter Iterable[T], pred func(T) bool) bool {
+	for next := iter.Next(); next != nil; next = iter.Next() {
+		if pred(*next) {
+			return true
+		}
+	}
+
+	return false
+}

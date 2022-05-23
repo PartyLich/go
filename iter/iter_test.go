@@ -400,3 +400,15 @@ func TestAll(t *testing.T) {
 	assertEq(t, All[int](New([]int{}), isEven), true)
 	assertEq(t, All[int](New([]int{}), isPos), true)
 }
+
+func TestAny(t *testing.T) {
+	list := []int{-4, -2, 2, 4}
+	isPos := func(i int) bool { return i >= 0 }
+	isOdd := func(a int) bool { return a%2 != 0 }
+
+	assertEq(t, Any[int](New(list), isPos), true)
+	assertEq(t, Any[int](New(list), isOdd), false)
+
+	assertEq(t, Any[int](New([]int{}), isOdd), false)
+	assertEq(t, Any[int](New([]int{}), isPos), false)
+}

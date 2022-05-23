@@ -51,3 +51,7 @@ func (iter *Filtered[T]) Nth(n int) *T {
 func (iter *Filtered[T]) All(pred func(T) bool) bool {
 	return All[T](iter, pred)
 }
+
+func (iter *Filtered[T]) Any(pred func(T) bool) bool {
+	return Any[T](iter, pred)
+}

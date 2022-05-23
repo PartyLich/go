@@ -205,3 +205,25 @@ func ExampleMapped_All() {
 	// 2
 	// 3
 }
+
+func ExampleMapped_Any() {
+	gt0 := func(a int) bool { return a > 0 }
+	ne2 := func(a int) bool { return a != 2 }
+	ident := func(i int) int { return i }
+	list := []int{1, 2, 3}
+
+	i := iter.New(list)
+	t := iter.Map[int, int](i, ident).Any(gt0)
+	fmt.Println(t)
+
+	i = iter.New(list)
+	m := iter.Map[int, int](i, ident)
+	f := m.Any(ne2)
+	fmt.Println(f)
+	// Any stops at the first true, so there are still more elements
+	fmt.Println(*i.Next())
+	// Output:
+	// true
+	// true
+	// 2
+}

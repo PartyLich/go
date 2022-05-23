@@ -51,3 +51,7 @@ func (iter *Iterator[T]) Nth(n int) *T {
 func (iter *Iterator[T]) All(pred func(T) bool) bool {
 	return All[T](iter, pred)
 }
+
+func (iter *Iterator[T]) Any(pred func(T) bool) bool {
+	return Any[T](iter, pred)
+}

@@ -51,3 +51,7 @@ func (iter *Mapped[T, O]) Nth(n int) *O {
 func (iter *Mapped[T, O]) All(pred func(O) bool) bool {
 	return All[O](iter, pred)
 }
+
+func (iter *Mapped[T, O]) Any(pred func(O) bool) bool {
+	return Any[O](iter, pred)
+}

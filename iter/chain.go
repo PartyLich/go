@@ -51,3 +51,7 @@ func (iter *Chained[T]) Nth(n int) *T {
 func (iter *Chained[T]) All(pred func(T) bool) bool {
 	return All[T](iter, pred)
 }
+
+func (iter *Chained[T]) Any(pred func(T) bool) bool {
+	return Any[T](iter, pred)
+}

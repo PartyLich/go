@@ -178,3 +178,22 @@ func ExampleFiltered_All() {
 	// 2
 	// 3
 }
+
+func ExampleFiltered_Any() {
+	gt0 := func(a int) bool { return a > 0 }
+	gt2 := func(a int) bool { return a > 2 }
+	list := []int{1, 2, 3, 4}
+
+	t := iter.New(list).Filter(gt2).Any(gt0)
+	fmt.Println(t)
+
+	i := iter.New(list).Filter(gt0)
+	f := i.Any(gt2)
+	fmt.Println(f)
+	// Any stops at the first true, so there are still more elements
+	fmt.Println(*i.Next())
+	// Output:
+	// true
+	// true
+	// 4
+}

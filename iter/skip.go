@@ -81,3 +81,7 @@ func (iter *Skipped[T]) Nth(n int) *T {
 func (iter *Skipped[T]) All(pred func(T) bool) bool {
 	return All[T](iter, pred)
 }
+
+func (iter *Skipped[T]) Any(pred func(T) bool) bool {
+	return Any[T](iter, pred)
+}

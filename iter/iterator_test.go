@@ -195,3 +195,24 @@ func ExampleIterator_All() {
 	// 2
 	// 3
 }
+
+func ExampleIterator_Any() {
+	gt0 := func(a int) bool { return a > 0 }
+	ne2 := func(a int) bool { return a != 2 }
+	list := []int{1, 2, 3}
+
+	t := iter.New(list).Any(gt0)
+	fmt.Println(t)
+
+	i := iter.New(list)
+	f := i.Any(ne2)
+	fmt.Println(f)
+	// Any stops at the first true, so there are still more elements
+	fmt.Println(*i.Next())
+	fmt.Println(*i.Next())
+	// Output:
+	// true
+	// true
+	// 2
+	// 3
+}

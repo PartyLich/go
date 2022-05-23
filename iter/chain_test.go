@@ -195,10 +195,31 @@ func ExampleChained_All() {
 	// All stops at the first false, so there are still more elements
 	fmt.Println(*i.Next())
 	fmt.Println(*i.Next())
-
 	// Output:
 	// true
 	// false
+	// 2
+	// 3
+}
+
+func ExampleChained_Any() {
+	gt0 := func(a int) bool { return a > 0 }
+	ne2 := func(a int) bool { return a != 2 }
+	a1 := []int{1, 2}
+	a2 := []int{3, 4}
+
+	t := iter.New(a1).Chain(iter.New(a2)).Any(gt0)
+	fmt.Println(t)
+
+	i := iter.New(a1).Chain(iter.New(a2))
+	f := i.Any(ne2)
+	fmt.Println(f)
+	// Any stops at the first true, so there are still more elements
+	fmt.Println(*i.Next())
+	fmt.Println(*i.Next())
+	// Output:
+	// true
+	// true
 	// 2
 	// 3
 }

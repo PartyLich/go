@@ -47,3 +47,7 @@ func (iter *Stepped[T]) Nth(n int) *T {
 func (iter *Stepped[T]) All(pred func(T) bool) bool {
 	return All[T](iter, pred)
 }
+
+func (iter *Stepped[T]) Any(pred func(T) bool) bool {
+	return Any[T](iter, pred)
+}
