@@ -26,13 +26,13 @@ func (iter *Iterator[T]) Next() *T {
 
 // Find searches for an element of an iterator that satisfies a predicate.
 //
-// takes a function that returns `true` or `false`. It applies this function to
-// each element of the iterator, and if any of them return `true`, then Find
-// returns a pointer to the element. If they all return `false`, it returns
-// `nil`.
+// Takes a function that returns true or false. It applies this function to
+// each element of the iterator, and if any of them return true, then Find
+// returns a pointer to the element. If they all return false, it returns
+// nil.
 //
 // Find is short-circuiting; in other words, it will stop processing as soon as
-// the closure returns `true`.
+// the predicate returns true.
 func (iter *Iterator[T]) Find(pred func(T) bool) *T {
 	for iter.idx < len(iter.slice) {
 		next := iter.slice[iter.idx]

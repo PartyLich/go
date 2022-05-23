@@ -1,7 +1,19 @@
 package iter
 
 type Iterable[T any] interface {
+	// Next advances the iterator and returns the next value.
+	//
+	// Returns nil when iteration is finished.
 	Next() *T
+	// Find searches for an element of an iterator that satisfies a predicate.
+	//
+	// Takes a function that returns true or false. It applies this function to
+	// each element of the iterator, and if any of them return true, then Find
+	// returns a pointer to the element. If they all return false, it returns
+	// nil.
+	//
+	// Find is short-circuiting; in other words, it will stop processing as soon as
+	// the predicate returns true.
 	Find(pred func(T) bool) *T
 }
 
@@ -58,17 +70,17 @@ func ForEach[T any](iter Iterable[T], fn func(T)) {
 	}
 }
 
-// Nth returns the `n`th element of the iterator.
+// Nth returns the nth element of the iterator.
 //
-// Like most indexing operations, the count starts from zero, so `Nth(0)`
-// returns the first value, `nth(1)` the second, and so on.
+// Like most indexing operations, the count starts from zero, so Nth(0)
+// returns the first value, nth(1) the second, and so on.
 //
 // Note that all preceding elements, as well as the returned element, will be
 // consumed from the iterator. That means that the preceding elements will be
-// discarded, and also that calling `Nth(0)` multiple times on the same iterator
+// discarded, and also that calling Nth(0) multiple times on the same iterator
 // will return different elements.
 //
-// Nth will return `nil` if `n` is greater than or equal to the length of the
+// Nth will return nil if n is greater than or equal to the length of the
 // iterator.
 func Nth[T any](iter Iterable[T], n int) *T {
 	if n < 0 {

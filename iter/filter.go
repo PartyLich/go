@@ -5,10 +5,10 @@ type Filtered[T any] struct {
 	pred func(T) bool
 }
 
-// Filter returns an iterator which uses a function to determine if an
+// Filter returns an iterator which uses a predicate function to determine if an
 // element should be yielded.
 //
-// The returned iterator will yield only the elements for which the closure
+// The returned iterator will yield only the elements for which the predicate
 // returns true.
 func Filter[T any](iter Iterable[T], pred func(T) bool) *Filtered[T] {
 	return &Filtered[T]{iter, pred}
