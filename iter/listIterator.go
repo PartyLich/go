@@ -50,3 +50,5 @@ func (it *ListIterator[T]) Find(pred func(T) bool) *T {
 
 	return nil
 }
+
+//go:generate go run ./cmd/gen/ -name ListIterator -output listIterator_ext_gen.go
