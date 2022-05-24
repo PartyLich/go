@@ -277,3 +277,33 @@ func Example_filterCount_fluent() {
 	// Output:
 	// 2
 }
+
+func ExampleMin() {
+	i := iter.New([]int{-4, -2, 2, 4})
+	fmt.Println(*iter.Min[int](i))
+
+	e := iter.New([]int{})
+	fmt.Println(iter.Min[int](e))
+
+	s := iter.New([]string{"abc", "bcd"})
+	fmt.Println(*iter.Min[string](s))
+	// Output:
+	// -4
+	// <nil>
+	// abc
+}
+
+func ExampleMax() {
+	i := iter.New([]int{-4, -2, 2, 4})
+	fmt.Println(*iter.Max[int](i))
+
+	e := iter.New([]int{})
+	fmt.Println(iter.Max[int](e))
+
+	s := iter.New([]string{"abc", "bcd"})
+	fmt.Println(*iter.Max[string](s))
+	// Output:
+	// 4
+	// <nil>
+	// bcd
+}

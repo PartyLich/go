@@ -1,0 +1,60 @@
+// Code generated from template. May be overwritten if modified manually. DO NOT EDIT.
+
+package iter
+
+func (iter *{{.Name}}[{{.InType}}]) Count() int {
+	return Count[{{.OutType}}](iter)
+}
+
+func (iter *{{.Name}}[{{.InType}}]) Partition(pred func({{.OutType}}) bool) ([]{{.OutType}}, []{{.OutType}}) {
+	return Partition[{{.OutType}}](iter, pred)
+}
+
+func (iter *{{.Name}}[{{.InType}}]) Filter(pred func({{.OutType}}) bool) *Filtered[{{.OutType}}] {
+	return Filter[{{.OutType}}](iter, pred)
+}
+
+func (iter *{{.Name}}[{{.InType}}]) SkipWhile(pred func({{.OutType}}) bool) *SkipWhileT[{{.OutType}}] {
+	return SkipWhile[{{.OutType}}](iter, pred)
+}
+
+func (iter *{{.Name}}[{{.InType}}]) TakeWhile(pred func({{.OutType}}) bool) *TakeWhileT[{{.OutType}}] {
+	return TakeWhile[{{.OutType}}](iter, pred)
+}
+
+func (iter *{{.Name}}[{{.InType}}]) Chain(b Iterable[{{.OutType}}]) *Chained[{{.OutType}}] {
+	return Chain[{{.OutType}}](iter, b)
+}
+
+func (iter *{{.Name}}[{{.InType}}]) StepBy(step int) *Stepped[{{.OutType}}] {
+	return StepBy[{{.OutType}}](iter, step)
+}
+
+func (iter *{{.Name}}[{{.InType}}]) Skip(n int) *Skipped[{{.OutType}}] {
+	return Skip[{{.OutType}}](iter, n)
+}
+
+func (iter *{{.Name}}[{{.InType}}]) Take(n int) *Taken[{{.OutType}}] {
+	return Take[{{.OutType}}](iter, n)
+}
+
+func (iter *{{.Name}}[{{.InType}}]) Collect() []{{.OutType}} {
+	return Collect[{{.OutType}}](iter)
+}
+
+func (iter *{{.Name}}[{{.InType}}]) ForEach(fn func({{.OutType}})) {
+	ForEach[{{.OutType}}](iter, fn)
+}
+
+func (iter *{{.Name}}[{{.InType}}]) Nth(n int) *{{.OutType}} {
+	return Nth[{{.OutType}}](iter, n)
+}
+
+func (iter *{{.Name}}[{{.InType}}]) All(pred func({{.OutType}}) bool) bool {
+	return All[{{.OutType}}](iter, pred)
+}
+
+func (iter *{{.Name}}[{{.InType}}]) Any(pred func({{.OutType}}) bool) bool {
+	return Any[{{.OutType}}](iter, pred)
+}
+

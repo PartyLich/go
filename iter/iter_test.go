@@ -1,6 +1,9 @@
 package iter
 
-import "testing"
+import (
+	"container/list"
+	"testing"
+)
 
 func assertEq[T comparable](t *testing.T, a, b T) {
 	if a != b {
@@ -411,4 +414,65 @@ func TestAny(t *testing.T) {
 
 	assertEq(t, Any[int](New([]int{}), isOdd), false)
 	assertEq(t, Any[int](New([]int{}), isPos), false)
+}
+
+func TestMin(t *testing.T) {
+	list := []int{-4, -2, 2, 4}
+	i := New(list)
+
+	assertEq(t, *Min[int](i), -4)
+
+	assertEq(t, Min[int](New([]int{})), nil)
+
+	s := []string{"abc", "bcd"}
+	assertEq(t, *Min[string](New(s)), "abc")
+}
+
+func TestMax(t *testing.T) {
+	list := []int{-4, -2, 2, 4}
+	i := New(list)
+
+	assertEq(t, *Max[int](i), 4)
+
+	assertEq(t, Max[int](New([]int{})), nil)
+
+	s := []string{"abc", "bcd"}
+	assertEq(t, *Max[string](New(s)), "bcd")
+}
+
+func makeList(n int) *list.List {
+	l := list.New()
+	for i := 1; i <= n; i++ {
+		l.PushBack(i)
+	}
+
+	return l
+}
+
+func TestListIterator_Next(t *testing.T) {
+	cases := []struct {
+		list *list.List
+		want []int
+	}{
+		{makeList(3), []int{1, 2, 3}},
+		{makeList(0), []int{}},
+	}
+
+	for _, c := range cases {
+		i := FromList[int](c.list)
+		for idx, have := 0, i.Next(); have != nil; idx, have = idx+1, i.Next() {
+			if *have != c.want[idx] {
+				t.Errorf("Next \n\thave %v\n\twant %v", *have, c.want[idx])
+			}
+		}
+	}
+}
+
+func TestListIterator_Find(t *testing.T) {
+	pred := func(i int) bool { return i == 2 }
+	l := makeList(3)
+	i := FromList[int](l)
+
+	assertEq(t, *i.Find(pred), 2)
+	assertEq(t, i.Find(pred), nil)
 }
