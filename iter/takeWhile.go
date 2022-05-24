@@ -40,3 +40,5 @@ func (iter *TakeWhileT[T]) Find(pred func(T) bool) *T {
 
 	return nil
 }
+
+//go:generate go run ./cmd/gen/ -name TakeWhileT -output takeWhile_ext_gen.go
