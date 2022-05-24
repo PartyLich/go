@@ -1,3 +1,4 @@
+// Package iter provides generic iterators and iterator adapters, with an intentionally Rust-y flavor
 package iter
 
 import is "golang.org/x/exp/constraints"
