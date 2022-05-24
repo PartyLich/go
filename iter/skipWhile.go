@@ -36,3 +36,5 @@ func (iter *SkipWhileT[T]) Find(pred func(T) bool) *T {
 
 	return nil
 }
+
+//go:generate go run ./cmd/gen/ -name SkipWhileT -output skipWhile_ext_gen.go
