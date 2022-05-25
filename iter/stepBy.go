@@ -35,16 +35,4 @@ func (s *Stepped[T]) Next() *T {
 	return next
 }
 
-func (s *Stepped[T]) Find(pred func(T) bool) *T {
-	var next *T
-
-	for next = s.Next(); next != nil; next = s.Next() {
-		if pred(*next) {
-			break
-		}
-	}
-
-	return next
-}
-
 //go:generate go run ./cmd/gen/ -name Stepped -output stepBy_ext_gen.go

@@ -27,14 +27,4 @@ func (s *SkipWhileT[T]) Next() *T {
 	return s.iter.Find(check(&s.flag, s.pred))
 }
 
-func (iter *SkipWhileT[T]) Find(pred func(T) bool) *T {
-	for next := iter.Next(); next != nil; next = iter.Next() {
-		if pred(*next) {
-			return next
-		}
-	}
-
-	return nil
-}
-
 //go:generate go run ./cmd/gen/ -name SkipWhileT -output skipWhile_ext_gen.go

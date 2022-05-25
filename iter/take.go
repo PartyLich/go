@@ -21,14 +21,4 @@ func (s *Taken[T]) Next() *T {
 	return s.iter.Next()
 }
 
-func (iter *Taken[T]) Find(pred func(T) bool) *T {
-	for next := iter.Next(); next != nil; next = iter.Next() {
-		if pred(*next) {
-			return next
-		}
-	}
-
-	return nil
-}
-
 //go:generate go run ./cmd/gen/ -name Taken -output take_ext_gen.go

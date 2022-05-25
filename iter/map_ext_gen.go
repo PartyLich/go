@@ -2,6 +2,19 @@
 
 package iter
 
+// Find searches for an element of an iterator that satisfies a predicate.
+//
+// Takes a function that returns true or false. It applies this function to
+// each element of the iterator, and if any of them return true, then Find
+// returns a pointer to the element. If they all return false, it returns
+// nil.
+//
+// Find is short-circuiting; in other words, it will stop processing as soon as
+// the predicate returns true.
+func (iter *Mapped[T, O]) Find(pred func(O) bool) *O {
+	return Find[O](iter, pred)
+}
+
 func (iter *Mapped[T, O]) Count() int {
 	return Count[O](iter)
 }

@@ -24,14 +24,4 @@ func (f *Filtered[T]) Next() *T {
 	return next
 }
 
-func (iter *Filtered[T]) Find(pred func(T) bool) *T {
-	for next := iter.Next(); next != nil; next = iter.Next() {
-		if pred(*next) {
-			return next
-		}
-	}
-
-	return nil
-}
-
 //go:generate go run ./cmd/gen/ -name Filtered -output filter_ext_gen.go

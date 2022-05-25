@@ -24,14 +24,4 @@ func (s *Skipped[T]) Next() *T {
 	return s.iter.Next()
 }
 
-func (iter *Skipped[T]) Find(pred func(T) bool) *T {
-	for next := iter.Next(); next != nil; next = iter.Next() {
-		if pred(*next) {
-			return next
-		}
-	}
-
-	return nil
-}
-
 //go:generate go run ./cmd/gen/ -name Skipped -output skip_ext_gen.go

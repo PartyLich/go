@@ -21,14 +21,4 @@ func (m *Mapped[T, O]) Next() *O {
 	return &result
 }
 
-func (iter *Mapped[T, O]) Find(pred func(O) bool) *O {
-	for next := iter.Next(); next != nil; next = iter.Next() {
-		if pred(*next) {
-			return next
-		}
-	}
-
-	return nil
-}
-
 //go:generate go run ./cmd/gen/ -name Mapped -otype O -output map_ext_gen.go
