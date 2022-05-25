@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
+	"go/format"
 	"log"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -47,33 +47,14 @@ func main() {
 	handleErr(err)
 	defer file.Close()
 
-	cmds := []*exec.Cmd{
-		exec.Command("gofmt", "-s"),
-	}
-
-	inPipe, err := cmds[0].StdinPipe()
-	handleErr(err)
-
-	// hook up command pipeline
-	for i := 1; i < len(cmds); i += 2 {
-		cmds[i].Stdin, err = cmds[i-1].StdoutPipe()
-		handleErr(err)
-	}
-
-	// cmds[len(cmds)-1].Stdout = os.Stdout
-	cmds[len(cmds)-1].Stdout = file
-
-	// start command pipeline
-	for _, cmd := range cmds {
-		handleErr(cmd.Start())
-	}
+	gen := new(strings.Builder)
 
 	// execute template
-	handleErr(t.Execute(inPipe, d))
-	handleErr(inPipe.Close())
+	handleErr(t.Execute(gen, d))
 
-	// wait for command pipeline
-	for _, cmd := range cmds {
-		handleErr(cmd.Wait())
-	}
+	formatted, err := format.Source([]byte(gen.String()))
+	handleErr(err)
+
+	_, err = file.Write(formatted)
+	handleErr(err)
 }
