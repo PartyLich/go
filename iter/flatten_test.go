@@ -443,19 +443,8 @@ func ExampleFlat_All() {
 	t := iter.Flatten[int](data).
 		All(gt0)
 	fmt.Println(t)
-
-	// gt2 := func(a int) bool { return a > 2 }
-	// i := iter.New(list)
-	// f := i.All(gt2)
-	// fmt.Println(f)
-	// // All stops at the first false, so there are still more elements
-	// fmt.Println(*i.Next())
-	// fmt.Println(*i.Next())
 	// Output:
 	// true
-	// false
-	// 2
-	// 3
 }
 
 func ExampleFlat_All_mapped() {
@@ -492,19 +481,8 @@ func ExampleFlat_Any() {
 	t := iter.Flatten[int](data).
 		Any(gt0)
 	fmt.Println(t)
-
-	// ne2 := func(a int) bool { return a != 2 }
-	// i := iter.New(list)
-	// f := i.Any(ne2)
-	// fmt.Println(f)
-	// // Any stops at the first true, so there are still more elements
-	// fmt.Println(*i.Next())
-	// fmt.Println(*i.Next())
 	// Output:
 	// true
-	// true
-	// 2
-	// 3
 }
 
 func ExampleFlat_Any_mapped() {
