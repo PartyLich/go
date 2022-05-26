@@ -137,3 +137,12 @@ func (iter *{{.Name}}[{{.InType}}]) All(pred func({{.OutType}}) bool) bool {
 func (iter *{{.Name}}[{{.InType}}]) Any(pred func({{.OutType}}) bool) bool {
 	return Any[{{.OutType}}](iter, pred)
 }
+
+// Last consumes the iterator, returning the last element.
+//
+// This method will evaluate the iterator until it returns nil. While doing so,
+// it keeps track of the current element. After nil is returned, Last will then
+// return the last element it saw.
+func (iter *{{.Name}}[{{.InType}}]) Last() *{{.OutType}} {
+	return Last[{{.OutType}}](iter)
+}
