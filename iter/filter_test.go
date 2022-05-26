@@ -197,3 +197,12 @@ func ExampleFiltered_Any() {
 	// true
 	// 4
 }
+
+func ExampleFiltered_Last() {
+	isEven := func(i int) bool { return i%2 == 0 }
+	i := iter.New([]int{1, 2, 3, 4, 5}).Filter(isEven)
+
+	fmt.Println(*i.Last())
+	// Output:
+	// 4
+}

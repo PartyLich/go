@@ -509,3 +509,14 @@ func ExampleFlat_Any_mapped() {
 	// 2
 	// 3
 }
+
+func ExampleFlat_Last_mapped() {
+	toIter := func(a []int) iter.Iterable[int] { return iter.New(a) }
+	data := [][]int{{1, 2}, {3, 4}}
+	m := iter.Map[[]int](iter.New(data), toIter)
+	i := iter.Flatten[int](m)
+
+	fmt.Println(*i.Last())
+	// Output:
+	// 4
+}

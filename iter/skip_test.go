@@ -182,3 +182,11 @@ func ExampleSkipped_Collect() {
 	// Output:
 	// [2 3 4]
 }
+
+func ExampleSkipped_Last() {
+	i := iter.New([]int{1, 2, 3, 4, 5}).Skip(3)
+
+	fmt.Println(*i.Last())
+	// Output:
+	// 5
+}

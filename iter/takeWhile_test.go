@@ -201,3 +201,13 @@ func ExampleTakeWhileT_Collect() {
 	// Output:
 	// [-1 -2]
 }
+
+func ExampleTakeWhileT_Last() {
+	isNeg := func(a int) bool { return a < 0 }
+	list := []int{-1, -2, 3, 4}
+	i := iter.New(list).TakeWhile(isNeg)
+
+	fmt.Println(*i.Last())
+	// Output:
+	// -2
+}

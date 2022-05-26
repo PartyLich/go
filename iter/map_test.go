@@ -237,3 +237,13 @@ func ExampleMapped_Collect() {
 	// Output:
 	// [1 2 3]
 }
+
+func ExampleMapped_Last() {
+	ident := func(i int) int { return i }
+	i := iter.New([]int{1, 2, 3, 4, 5})
+	m := *iter.Map[int, int](i, ident)
+
+	fmt.Println(*m.Last())
+	// Output:
+	// 5
+}

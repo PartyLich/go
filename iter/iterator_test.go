@@ -228,3 +228,11 @@ func ExampleIterator_Any() {
 	// 2
 	// 3
 }
+
+func ExampleIterator_Last() {
+	i := iter.New([]int{1, 2, 3, 4, 5})
+
+	fmt.Println(*i.Last())
+	// Output:
+	// 5
+}

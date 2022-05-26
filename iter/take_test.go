@@ -184,3 +184,11 @@ func ExampleTaken_Collect() {
 	// Output:
 	// [1 2]
 }
+
+func ExampleTaken_Last() {
+	i := iter.New([]int{1, 2, 3, 4, 5}).Take(3)
+
+	fmt.Println(*i.Last())
+	// Output:
+	// 3
+}

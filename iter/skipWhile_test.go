@@ -200,3 +200,13 @@ func ExampleSkipWhileT_Collect() {
 	// Output:
 	// [3 4]
 }
+
+func ExampleSkipWhileT_Last() {
+	isNeg := func(a int) bool { return a < 0 }
+	list := []int{-1, -2, 3, 4}
+	i := iter.New(list).SkipWhile(isNeg)
+
+	fmt.Println(*i.Last())
+	// Output:
+	// 4
+}

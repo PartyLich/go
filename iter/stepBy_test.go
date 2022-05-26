@@ -178,3 +178,11 @@ func ExampleStepped_Collect() {
 	// Output:
 	// [1 3]
 }
+
+func ExampleStepped_Last() {
+	i := iter.New([]int{1, 2, 3, 4, 5}).StepBy(2)
+
+	fmt.Println(*i.Last())
+	// Output:
+	// 5
+}
