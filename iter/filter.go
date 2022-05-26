@@ -15,13 +15,7 @@ func Filter[T any](iter Iterable[T], pred func(T) bool) *Filtered[T] {
 }
 
 func (f *Filtered[T]) Next() *T {
-	next := f.iter.Find(f.pred)
-
-	if next == nil || !f.pred(*next) {
-		return nil
-	}
-
-	return next
+	return f.iter.Find(f.pred)
 }
 
 //go:generate go run ./cmd/gen/ -name Filtered -output filter_ext_gen.go
