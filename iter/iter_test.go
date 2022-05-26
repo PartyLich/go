@@ -203,6 +203,7 @@ func TestNth(t *testing.T) {
 	have := *Nth[int](New(list), 1)
 
 	assertEq(t, have, 2)
+	assertPanic(t, func() { Nth[int](New(list), -1) })
 }
 
 func TestSkipWhile(t *testing.T) {
@@ -456,7 +457,9 @@ func TestListIterator_Next(t *testing.T) {
 	}{
 		{makeList(3), []int{1, 2, 3}},
 		{makeList(0), []int{}},
+		{makeList(3), []int{1, 2, 3}},
 	}
+	cases[2].list.PushBack("different type")
 
 	for _, c := range cases {
 		i := FromList[int](c.list)
