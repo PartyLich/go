@@ -137,3 +137,12 @@ func (iter *Mapped[T, O]) All(pred func(O) bool) bool {
 func (iter *Mapped[T, O]) Any(pred func(O) bool) bool {
 	return Any[O](iter, pred)
 }
+
+// Last consumes the iterator, returning the last element.
+//
+// This method will evaluate the iterator until it returns nil. While doing so,
+// it keeps track of the current element. After nil is returned, Last will then
+// return the last element it saw.
+func (iter *Mapped[T, O]) Last() *O {
+	return Last[O](iter)
+}

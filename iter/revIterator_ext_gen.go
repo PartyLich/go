@@ -137,3 +137,12 @@ func (iter *RevIterator[T]) All(pred func(T) bool) bool {
 func (iter *RevIterator[T]) Any(pred func(T) bool) bool {
 	return Any[T](iter, pred)
 }
+
+// Last consumes the iterator, returning the last element.
+//
+// This method will evaluate the iterator until it returns nil. While doing so,
+// it keeps track of the current element. After nil is returned, Last will then
+// return the last element it saw.
+func (iter *RevIterator[T]) Last() *T {
+	return Last[T](iter)
+}
