@@ -1,5 +1,6 @@
 package iter
 
+// Chained is an Iterable that links two Iterables together sequentially.
 type Chained[T any] struct {
 	a, b Iterable[T]
 }
@@ -12,6 +13,9 @@ func Chain[T any](a, b Iterable[T]) *Chained[T] {
 	return &Chained[T]{a, b}
 }
 
+// Next advances the iterator and returns the next value.
+//
+// Returns nil when iteration is finished.
 func (c *Chained[T]) Next() *T {
 	next := c.a.Next()
 

@@ -1,5 +1,6 @@
 package iter
 
+// Stepped is an Iterable for stepping iterators by a custom amount.
 type Stepped[T any] struct {
 	iter  Iterable[T]
 	step  int
@@ -21,6 +22,9 @@ func StepBy[T any](a Iterable[T], step int) *Stepped[T] {
 	return &Stepped[T]{a, step, true}
 }
 
+// Next advances the iterator and returns the next value.
+//
+// Returns nil when iteration is finished.
 func (s *Stepped[T]) Next() *T {
 	if s.first {
 		s.first = false

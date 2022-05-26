@@ -10,6 +10,9 @@ func Map[T any, O any](iter Iterable[T], fn func(T) O) *Mapped[T, O] {
 	return &Mapped[T, O]{iter, fn}
 }
 
+// Next advances the iterator and returns the next value.
+//
+// Returns nil when iteration is finished.
 func (m *Mapped[T, O]) Next() *O {
 	next := m.iter.Next()
 

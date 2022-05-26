@@ -14,6 +14,9 @@ func Filter[T any](iter Iterable[T], pred func(T) bool) *Filtered[T] {
 	return &Filtered[T]{iter, pred}
 }
 
+// Next advances the iterator and returns the next value.
+//
+// Returns nil when iteration is finished.
 func (f *Filtered[T]) Next() *T {
 	return f.iter.Find(f.pred)
 }

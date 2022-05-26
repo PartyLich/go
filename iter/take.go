@@ -12,6 +12,9 @@ func Take[T any](iter Iterable[T], n int) *Taken[T] {
 	return &Taken[T]{iter, n}
 }
 
+// Next advances the iterator and returns the next value.
+//
+// Returns nil when iteration is finished.
 func (s *Taken[T]) Next() *T {
 	if s.n == 0 {
 		return nil

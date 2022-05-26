@@ -1,6 +1,6 @@
 package iter
 
-// SkipWhile iterable adapter
+// SkipWhile is an Iterable that rejects elements while predicate returns true.
 type SkipWhileT[T any] struct {
 	iter Iterable[T]
 	flag bool
@@ -12,6 +12,9 @@ func SkipWhile[T any](iter Iterable[T], pred func(T) bool) *SkipWhileT[T] {
 	return &SkipWhileT[T]{iter, false, pred}
 }
 
+// Next advances the iterator and returns the next value.
+//
+// Returns nil when iteration is finished.
 func (s *SkipWhileT[T]) Next() *T {
 	check := func(flag *bool, pred func(T) bool) func(T) bool {
 		return func(t T) bool {

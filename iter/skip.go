@@ -15,6 +15,9 @@ func Skip[T any](iter Iterable[T], n int) *Skipped[T] {
 	return &Skipped[T]{iter, n}
 }
 
+// Next advances the iterator and returns the next value.
+//
+// Returns nil when iteration is finished.
 func (s *Skipped[T]) Next() *T {
 	for s.n != 0 {
 		s.n -= 1
