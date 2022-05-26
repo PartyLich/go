@@ -170,3 +170,11 @@ func ExampleStepped_Any() {
 	// true
 	// 3
 }
+
+func ExampleStepped_Collect() {
+	list := []int{1, 2, 3}
+	s := iter.New(list).StepBy(2).Collect()
+	fmt.Println(s)
+	// Output:
+	// [1 3]
+}
