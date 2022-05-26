@@ -209,3 +209,13 @@ func Max[T is.Ordered](iter Iterable[T]) *T {
 
 	return max
 }
+
+// Last Consumes the iterator, returning the last element.
+//
+// This method will evaluate the iterator until it returns nil. While doing so,
+// it keeps track of the current element. After nil is returned, Last will then
+// return the last element it saw.
+func Last[T any](iter Iterable[T]) *T {
+	last := func(_ *T, t T) *T { return &t }
+	return Fold(iter, nil, last)
+}

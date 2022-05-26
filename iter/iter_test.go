@@ -441,6 +441,20 @@ func TestMax(t *testing.T) {
 	assertEq(t, *Max[string](New(s)), "bcd")
 }
 
+func TestLast(t *testing.T) {
+	list := []int{-4, -2, 2, 4}
+	i := New(list)
+
+	assertEq(t, *Last[int](i), 4)
+	assertEq(t, i.Next(), nil)
+
+	empty := New([]int{})
+	assertEq(t, Last[int](empty), nil)
+
+	s := []string{"abc", "bcd"}
+	assertEq(t, *Last[string](New(s)), "bcd")
+}
+
 func makeList(n int) *list.List {
 	l := list.New()
 	for i := 1; i <= n; i++ {
