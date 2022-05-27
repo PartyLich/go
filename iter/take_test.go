@@ -176,3 +176,19 @@ func ExampleTaken_Any() {
 	// 2
 	// 3
 }
+
+func ExampleTaken_Collect() {
+	list := []int{1, 2, 3}
+	s := iter.New(list).Take(2).Collect()
+	fmt.Println(s)
+	// Output:
+	// [1 2]
+}
+
+func ExampleTaken_Last() {
+	i := iter.New([]int{1, 2, 3, 4, 5}).Take(3)
+
+	fmt.Println(*i.Last())
+	// Output:
+	// 3
+}

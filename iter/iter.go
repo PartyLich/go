@@ -20,6 +20,25 @@ type Iterable[T any] interface {
 	Find(pred func(T) bool) *T
 }
 
+// Find searches for an element of an iterator that satisfies a predicate.
+//
+// Takes a function that returns true or false. It applies this function to
+// each element of the iterator, and if any of them return true, then Find
+// returns a pointer to the element. If they all return false, it returns
+// nil.
+//
+// Find is short-circuiting; in other words, it will stop processing as soon as
+// the predicate returns true.
+func Find[T any](iter Iterable[T], pred func(T) bool) *T {
+	for next := iter.Next(); next != nil; next = iter.Next() {
+		if pred(*next) {
+			return next
+		}
+	}
+
+	return nil
+}
+
 // Reduce repeatedly applies a reducing operation, reducing the iterator to a
 // single element
 func Reduce[T any, O any](iter Iterable[T], init O, fn func(O, T) O) O {
@@ -189,4 +208,14 @@ func Max[T is.Ordered](iter Iterable[T]) *T {
 	}
 
 	return max
+}
+
+// Last Consumes the iterator, returning the last element.
+//
+// This method will evaluate the iterator until it returns nil. While doing so,
+// it keeps track of the current element. After nil is returned, Last will then
+// return the last element it saw.
+func Last[T any](iter Iterable[T]) *T {
+	last := func(_ *T, t T) *T { return &t }
+	return Fold(iter, nil, last)
 }

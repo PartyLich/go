@@ -14,24 +14,11 @@ func Filter[T any](iter Iterable[T], pred func(T) bool) *Filtered[T] {
 	return &Filtered[T]{iter, pred}
 }
 
+// Next advances the iterator and returns the next value.
+//
+// Returns nil when iteration is finished.
 func (f *Filtered[T]) Next() *T {
-	next := f.iter.Find(f.pred)
-
-	if next == nil || !f.pred(*next) {
-		return nil
-	}
-
-	return next
-}
-
-func (iter *Filtered[T]) Find(pred func(T) bool) *T {
-	for next := iter.Next(); next != nil; next = iter.Next() {
-		if pred(*next) {
-			return next
-		}
-	}
-
-	return nil
+	return f.iter.Find(f.pred)
 }
 
 //go:generate go run ./cmd/gen/ -name Filtered -output filter_ext_gen.go

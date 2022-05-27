@@ -6,6 +6,18 @@ import (
 	"github.com/partylich/go/iter"
 )
 
+func ExampleIterator_Find() {
+	list := []int{1, 2, 3, 4}
+	isTwo := func(i int) bool { return i == 2 }
+	i := iter.New(list)
+
+	fmt.Println(*i.Find(isTwo))
+	fmt.Println(i.Find(isTwo))
+	// Output:
+	// 2
+	// <nil>
+}
+
 func ExampleIterator_Count() {
 	i := iter.New([]int{1, 2, 3, 4, 5})
 
@@ -215,4 +227,12 @@ func ExampleIterator_Any() {
 	// true
 	// 2
 	// 3
+}
+
+func ExampleIterator_Last() {
+	i := iter.New([]int{1, 2, 3, 4, 5})
+
+	fmt.Println(*i.Last())
+	// Output:
+	// 5
 }

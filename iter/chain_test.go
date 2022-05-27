@@ -223,3 +223,24 @@ func ExampleChained_Any() {
 	// 2
 	// 3
 }
+
+func ExampleChained_Collect() {
+	a1 := []int{1, 2, 3}
+	a2 := []int{4, 5, 6}
+
+	s := iter.New(a1).Chain(iter.New(a2)).Collect()
+	fmt.Println(s)
+	// Output:
+	// [1 2 3 4 5 6]
+}
+
+func ExampleChained_Last() {
+	a1 := []int{1, 2, 3}
+	a2 := []int{4, 5, 6}
+
+	i := iter.New(a1).Chain(iter.New(a2))
+
+	fmt.Println(*i.Last())
+	// Output:
+	// 6
+}

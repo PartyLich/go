@@ -11,13 +11,13 @@ package iter
 //
 // Find is short-circuiting; in other words, it will stop processing as soon as
 // the predicate returns true.
-func (iter *Chained[T]) Find(pred func(T) bool) *T {
+func (iter *Flat[T]) Find(pred func(T) bool) *T {
 	return Find[T](iter, pred)
 }
 
 // Count consumes the iterator, counting the number of iterations and returning
 // it.
-func (iter *Chained[T]) Count() int {
+func (iter *Flat[T]) Count() int {
 	return Count[T](iter)
 }
 
@@ -26,7 +26,7 @@ func (iter *Chained[T]) Count() int {
 // The first slice contains all of the elements for which the predicate returned
 // true, and the second slice contains all of the elements for which it returned
 // false.
-func (iter *Chained[T]) Partition(pred func(T) bool) ([]T, []T) {
+func (iter *Flat[T]) Partition(pred func(T) bool) ([]T, []T) {
 	return Partition[T](iter, pred)
 }
 
@@ -35,17 +35,17 @@ func (iter *Chained[T]) Partition(pred func(T) bool) ([]T, []T) {
 //
 // The returned iterator will yield only the elements for which the predicate
 // returns true.
-func (iter *Chained[T]) Filter(pred func(T) bool) *Filtered[T] {
+func (iter *Flat[T]) Filter(pred func(T) bool) *Filtered[T] {
 	return Filter[T](iter, pred)
 }
 
 // SkipWhile creates an iterator that skips elements based on a predicate.
-func (iter *Chained[T]) SkipWhile(pred func(T) bool) *SkipWhileT[T] {
+func (iter *Flat[T]) SkipWhile(pred func(T) bool) *SkipWhileT[T] {
 	return SkipWhile[T](iter, pred)
 }
 
 // TakeWhile Creates an iterator that yields elements based on a predicate.
-func (iter *Chained[T]) TakeWhile(pred func(T) bool) *TakeWhileT[T] {
+func (iter *Flat[T]) TakeWhile(pred func(T) bool) *TakeWhileT[T] {
 	return TakeWhile[T](iter, pred)
 }
 
@@ -53,7 +53,7 @@ func (iter *Chained[T]) TakeWhile(pred func(T) bool) *TakeWhileT[T] {
 //
 // Chain will return a new iterator which will first iterate over values from
 // the first iterator and then over values from the second iterator.
-func (iter *Chained[T]) Chain(b Iterable[T]) *Chained[T] {
+func (iter *Flat[T]) Chain(b Iterable[T]) *Chained[T] {
 	return Chain[T](iter, b)
 }
 
@@ -64,23 +64,23 @@ func (iter *Chained[T]) Chain(b Iterable[T]) *Chained[T] {
 //
 // Note 1: The first element of the iterator will always be returned, regardless
 // of the step given.
-func (iter *Chained[T]) StepBy(step int) *Stepped[T] {
+func (iter *Flat[T]) StepBy(step int) *Stepped[T] {
 	return StepBy[T](iter, step)
 }
 
 // Skip creates an iterator that skips the first n elements.
-func (iter *Chained[T]) Skip(n int) *Skipped[T] {
+func (iter *Flat[T]) Skip(n int) *Skipped[T] {
 	return Skip[T](iter, n)
 }
 
 // Take creates an iterator that yields the first n elements, or fewer if the
 // underlying iterator ends sooner.
-func (iter *Chained[T]) Take(n int) *Taken[T] {
+func (iter *Flat[T]) Take(n int) *Taken[T] {
 	return Take[T](iter, n)
 }
 
 // Collect transforms an iterator into a slice.
-func (iter *Chained[T]) Collect() []T {
+func (iter *Flat[T]) Collect() []T {
 	return Collect[T](iter)
 }
 
@@ -88,7 +88,7 @@ func (iter *Chained[T]) Collect() []T {
 //
 // This is equivalent to using a for loop on the iterator, although break and
 // continue are not possible.
-func (iter *Chained[T]) ForEach(fn func(T)) {
+func (iter *Flat[T]) ForEach(fn func(T)) {
 	ForEach[T](iter, fn)
 }
 
@@ -104,7 +104,7 @@ func (iter *Chained[T]) ForEach(fn func(T)) {
 //
 // Nth will return nil if n is greater than or equal to the length of the
 // iterator.
-func (iter *Chained[T]) Nth(n int) *T {
+func (iter *Flat[T]) Nth(n int) *T {
 	return Nth[T](iter, n)
 }
 
@@ -119,7 +119,7 @@ func (iter *Chained[T]) Nth(n int) *T {
 // also be false.
 //
 // An empty iterator returns true.
-func (iter *Chained[T]) All(pred func(T) bool) bool {
+func (iter *Flat[T]) All(pred func(T) bool) bool {
 	return All[T](iter, pred)
 }
 
@@ -134,7 +134,7 @@ func (iter *Chained[T]) All(pred func(T) bool) bool {
 // be true.
 //
 // An empty iterator returns false.
-func (iter *Chained[T]) Any(pred func(T) bool) bool {
+func (iter *Flat[T]) Any(pred func(T) bool) bool {
 	return Any[T](iter, pred)
 }
 
@@ -143,6 +143,6 @@ func (iter *Chained[T]) Any(pred func(T) bool) bool {
 // This method will evaluate the iterator until it returns nil. While doing so,
 // it keeps track of the current element. After nil is returned, Last will then
 // return the last element it saw.
-func (iter *Chained[T]) Last() *T {
+func (iter *Flat[T]) Last() *T {
 	return Last[T](iter)
 }

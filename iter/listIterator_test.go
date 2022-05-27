@@ -323,3 +323,17 @@ func ExampleListIterator_Any() {
 	// 2
 	// 3
 }
+
+func ExampleListIterator_Last() {
+	l := list.New()
+	// fill linked list with 1 to 4
+	for i := 1; i <= 4; i++ {
+		l.PushBack(i)
+	}
+
+	i := iter.FromList[int](l)
+
+	fmt.Println(*i.Last())
+	// Output:
+	// 4
+}

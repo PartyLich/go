@@ -1,6 +1,6 @@
 package iter
 
-// TakeWhile iterable adapter
+// TakeWhile is an Iterable that only yields elements while a predicate returns true.
 type TakeWhileT[T any] struct {
 	iter Iterable[T]
 	flag bool
@@ -16,6 +16,9 @@ func TakeWhile[T any](iter Iterable[T], pred func(T) bool) *TakeWhileT[T] {
 	return &TakeWhileT[T]{iter, true, pred}
 }
 
+// Next advances the iterator and returns the next value.
+//
+// Returns nil when iteration is finished.
 func (s *TakeWhileT[T]) Next() *T {
 	check := func(flag *bool, pred func(T) bool) func(T) bool {
 		return func(t T) bool {
@@ -29,16 +32,6 @@ func (s *TakeWhileT[T]) Next() *T {
 	}
 
 	return s.iter.Find(check(&s.flag, s.pred))
-}
-
-func (iter *TakeWhileT[T]) Find(pred func(T) bool) *T {
-	for next := iter.Next(); next != nil; next = iter.Next() {
-		if pred(*next) {
-			return next
-		}
-	}
-
-	return nil
 }
 
 //go:generate go run ./cmd/gen/ -name TakeWhileT -output takeWhile_ext_gen.go

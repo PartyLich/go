@@ -198,3 +198,20 @@ func ExampleRevIterator_Any() {
 	// true
 	// 2
 }
+
+func ExampleRevIterator_Collect() {
+	list := []int{1, 2, 3}
+
+	s := iter.New(list).Rev().Collect()
+	fmt.Println(s)
+	// Output:
+	// [3 2 1]
+}
+
+func ExampleRevIterator_Last() {
+	i := iter.New([]int{1, 2, 3, 4, 5}).Rev()
+
+	fmt.Println(*i.Last())
+	// Output:
+	// 1
+}

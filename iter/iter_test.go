@@ -203,6 +203,7 @@ func TestNth(t *testing.T) {
 	have := *Nth[int](New(list), 1)
 
 	assertEq(t, have, 2)
+	assertPanic(t, func() { Nth[int](New(list), -1) })
 }
 
 func TestSkipWhile(t *testing.T) {
@@ -440,6 +441,20 @@ func TestMax(t *testing.T) {
 	assertEq(t, *Max[string](New(s)), "bcd")
 }
 
+func TestLast(t *testing.T) {
+	list := []int{-4, -2, 2, 4}
+	i := New(list)
+
+	assertEq(t, *Last[int](i), 4)
+	assertEq(t, i.Next(), nil)
+
+	empty := New([]int{})
+	assertEq(t, Last[int](empty), nil)
+
+	s := []string{"abc", "bcd"}
+	assertEq(t, *Last[string](New(s)), "bcd")
+}
+
 func makeList(n int) *list.List {
 	l := list.New()
 	for i := 1; i <= n; i++ {
@@ -456,7 +471,9 @@ func TestListIterator_Next(t *testing.T) {
 	}{
 		{makeList(3), []int{1, 2, 3}},
 		{makeList(0), []int{}},
+		{makeList(3), []int{1, 2, 3}},
 	}
+	cases[2].list.PushBack("different type")
 
 	for _, c := range cases {
 		i := FromList[int](c.list)
@@ -475,4 +492,29 @@ func TestListIterator_Find(t *testing.T) {
 
 	assertEq(t, *i.Find(pred), 2)
 	assertEq(t, i.Find(pred), nil)
+}
+
+func TestFlat_Next(t *testing.T) {
+	data := New([]Iterable[int]{
+		New([]int{1, 2}),
+		New([]int{3, 4}),
+	})
+	f := Flatten[int](data)
+
+	for i := 1; i <= 4; i++ {
+		assertEq(t, *f.Next(), i)
+	}
+	assertEq(t, f.Next(), nil)
+}
+
+func TestFlat_Find(t *testing.T) {
+	pred := func(i int) bool { return i == 2 }
+	data := New([]Iterable[int]{
+		New([]int{1, 2}),
+		New([]int{3, 4}),
+	})
+	f := Flatten[int](data)
+
+	assertEq(t, *f.Find(pred), 2)
+	assertEq(t, f.Find(pred), nil)
 }

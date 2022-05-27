@@ -173,3 +173,20 @@ func ExampleSkipped_Any() {
 	// true
 	// 4
 }
+
+func ExampleSkipped_Collect() {
+	list := []int{1, 2, 3, 4}
+
+	s := iter.New(list).Skip(1).Collect()
+	fmt.Println(s)
+	// Output:
+	// [2 3 4]
+}
+
+func ExampleSkipped_Last() {
+	i := iter.New([]int{1, 2, 3, 4, 5}).Skip(3)
+
+	fmt.Println(*i.Last())
+	// Output:
+	// 5
+}

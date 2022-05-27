@@ -39,10 +39,10 @@ func ExampleIterable_Next() {
 func ExampleIterable_Find() {
 	list := []int{1, 2, 3, 4}
 	isTwo := func(i int) bool { return i == 2 }
-	i := iter.New(list)
+	it := iter.New(list)
 
-	fmt.Println(*i.Find(isTwo))
-	fmt.Println(i.Find(isTwo))
+	fmt.Println(*iter.Find[int](it, isTwo))
+	fmt.Println(iter.Find[int](it, isTwo))
 	// Output:
 	// 2
 	// <nil>
